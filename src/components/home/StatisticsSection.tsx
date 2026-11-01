@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Calendar, Globe, Users, GraduationCap, type LucideIcon } from 'lucide-react';
-import { mockStatistics, type StatisticItem } from '../../data/statistics';
+import type { StatisticItem } from '../../types/content';
+import { useBackendData } from '../../hooks/useBackendData';
 
 const statIcons: Record<StatisticItem['iconName'], LucideIcon> = {
   Calendar,
@@ -10,15 +11,16 @@ const statIcons: Record<StatisticItem['iconName'], LucideIcon> = {
 };
 
 export function StatisticsSection() {
+  const statistics = useBackendData<StatisticItem>('statistics');
   return (
     <section className="az-stats-section" aria-labelledby="stats-heading">
       <div className="az-container">
         <h2 id="stats-heading" className="sr-only">
-          AZTech Key Statistics & Global Reach
+          AizenGo Key Statistics & Global Reach
         </h2>
 
         <div className="az-stats-grid">
-          {mockStatistics.map((stat, i) => {
+          {statistics.map((stat, i) => {
             const Icon = statIcons[stat.iconName] || Users;
             return (
               <motion.div

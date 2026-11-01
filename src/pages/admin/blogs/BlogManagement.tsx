@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   BookOpen,
   Edit,
-  Eye,
   Plus,
   Trash2,
 } from 'lucide-react'
@@ -17,7 +16,7 @@ import { useAdminToast } from '../../../hooks/useAdminToast'
 import { Badge } from '../../../components/common/Badge'
 import { Button } from '../../../components/common/Button'
 import { ROUTES } from '../../../constants/routes'
-import { BLOG_CATEGORIES, type BlogPost } from '../../../data/blogs'
+import { BLOG_CATEGORIES, type BlogPost } from '../../../types/content'
 import { adminBlogService } from '../../../services/adminBlogService'
 
 export default function BlogManagement() {
@@ -214,15 +213,6 @@ export default function BlogManagement() {
       align: 'right',
       render: (post) => (
         <div className="az-action-buttons">
-          <a
-            href={`/blogs/${post.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="az-action-btn"
-            title="View public article"
-          >
-            <Eye size={15} />
-          </a>
           <button
             type="button"
             className="az-action-btn"

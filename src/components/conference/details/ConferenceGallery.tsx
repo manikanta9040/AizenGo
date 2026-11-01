@@ -34,7 +34,7 @@ export function ConferenceGallery({ conference }: ConferenceGalleryProps) {
       </div>
 
       <p className="az-body-sm" style={{ color: 'var(--az-muted)', marginBottom: 'var(--az-space-6)' }}>
-        Moments from past AZTech summit plenary sessions, interactive poster exhibitions, and delegate banquets.
+        Moments from past AizenGo summit plenary sessions, interactive poster exhibitions, and delegate banquets.
       </p>
 
       <div className="az-conf-gallery-grid">

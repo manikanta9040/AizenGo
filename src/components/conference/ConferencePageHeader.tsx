@@ -34,7 +34,7 @@ export function ConferencePageHeader() {
             </Badge>
           </div>
           <h1 id="conference-heading" className="az-conference-header__title">
-            Explore AZTech Conferences
+            Explore AizenGo Conferences
           </h1>
           <p className="az-conference-header__description az-body-lg">
             Discover conferences, connect with experts and explore opportunities to share knowledge

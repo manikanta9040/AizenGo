@@ -9,7 +9,7 @@ import { Input } from '../../../components/common/Input'
 import { Select } from '../../../components/common/Select'
 import { Textarea } from '../../../components/common/Textarea'
 import { ROUTES } from '../../../constants/routes'
-import { BLOG_CATEGORIES, type BlogCategory } from '../../../data/blogs'
+import { BLOG_CATEGORIES, type BlogCategory } from '../../../types/content'
 import { adminBlogService } from '../../../services/adminBlogService'
 
 type BlogCategoryOption = Exclude<BlogCategory, 'All'>

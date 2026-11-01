@@ -13,7 +13,7 @@ import { Input } from '../../../components/common/Input'
 import { Select } from '../../../components/common/Select'
 import { Textarea } from '../../../components/common/Textarea'
 import { ROUTES } from '../../../constants/routes'
-import { FAQ_CATEGORIES, type FAQCategory, type FAQItem } from '../../../data/faqs'
+import { FAQ_CATEGORIES, type FAQCategory, type FAQItem } from '../../../types/content'
 import { adminFaqService } from '../../../services/adminFaqService'
 
 type FAQCategoryOption = Exclude<FAQCategory, 'All'>

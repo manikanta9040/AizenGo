@@ -1,39 +1,20 @@
-import { mockAbstractReviewDistribution, mockMonthlyRevenueData, mockReportSummary } from '../data/reports'
-import type { ReportSummary } from '../types/admin'
+import type { AbstractReviewPoint, MonthlyRevenuePoint, ReportSummary } from '../types/admin'
+import { listBackend } from './backendDataService'
 
 export const adminReportService = {
-  getSummary: async (filters?: {
-    dateRange?: string
-    conferenceId?: string
-    country?: string
-  }): Promise<ReportSummary> => {
-    // Return filtered or base summary
-    if (!filters || (!filters.conferenceId && !filters.country && (!filters.dateRange || filters.dateRange === 'all'))) {
-      return mockReportSummary
-    }
-
-    let countryDist = [...mockReportSummary.countryDistribution]
-    if (filters.country && filters.country !== 'all') {
-      countryDist = countryDist.filter((c) => c.country.toLowerCase() === filters.country?.toLowerCase())
-    }
-
-    let confDist = [...mockReportSummary.conferenceDistribution]
-    if (filters.conferenceId && filters.conferenceId !== 'all') {
-      confDist = confDist.filter((c) => c.title.toLowerCase().includes(filters.conferenceId?.toLowerCase() || ''))
-    }
-
-    return {
-      ...mockReportSummary,
-      countryDistribution: countryDist.length > 0 ? countryDist : mockReportSummary.countryDistribution,
-      conferenceDistribution: confDist.length > 0 ? confDist : mockReportSummary.conferenceDistribution,
-    }
+  getSummary: async (filters?: { dateRange?: string; conferenceId?: string; country?: string }): Promise<ReportSummary> => {
+    const items = await listBackend<ReportSummary>('reports')
+    const summary = items[0]
+    if (!summary) throw new Error('Backend reports have not been configured.')
+    if (!filters || (!filters.conferenceId && !filters.country && (!filters.dateRange || filters.dateRange === 'all'))) return summary
+    const countryDistribution = filters.country && filters.country !== 'all'
+      ? summary.countryDistribution.filter((item) => item.country.toLowerCase() === filters.country?.toLowerCase())
+      : summary.countryDistribution
+    const conferenceDistribution = filters.conferenceId && filters.conferenceId !== 'all'
+      ? summary.conferenceDistribution.filter((item) => item.title.toLowerCase().includes(filters.conferenceId?.toLowerCase() || ''))
+      : summary.conferenceDistribution
+    return { ...summary, countryDistribution: countryDistribution.length ? countryDistribution : summary.countryDistribution, conferenceDistribution: conferenceDistribution.length ? conferenceDistribution : summary.conferenceDistribution }
   },
-
-  getMonthlyRevenue: async () => {
-    return mockMonthlyRevenueData
-  },
-
-  getAbstractDistribution: async () => {
-    return mockAbstractReviewDistribution
-  },
+  getMonthlyRevenue: (): Promise<MonthlyRevenuePoint[]> => listBackend<MonthlyRevenuePoint>('monthlyRevenue'),
+  getAbstractDistribution: (): Promise<AbstractReviewPoint[]> => listBackend<AbstractReviewPoint>('abstractReviewDistribution'),
 }

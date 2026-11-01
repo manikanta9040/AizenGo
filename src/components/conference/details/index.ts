@@ -6,7 +6,6 @@ export { ConferenceTopics } from './ConferenceTopics';
 export { ImportantDates } from './ImportantDates';
 export { RegistrationCard } from './RegistrationCard';
 export { RegistrationTypes } from './RegistrationTypes';
-export { ConferenceSpeakers } from './ConferenceSpeakers';
 export { ConferenceCommittee } from './ConferenceCommittee';
 export { ConferenceProgram } from './ConferenceProgram';
 export { ConferenceVenue } from './ConferenceVenue';

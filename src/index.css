@@ -127,7 +127,8 @@ h1, h2, h3, h4, p { margin-top: 0; } h1, h2, h3, h4 { color: var(--az-navy); }
 /* Header & Navigation */
 .az-header { position: sticky; z-index: 40; top: 0; border-bottom: 1px solid var(--az-border); background: rgb(255 255 255 / 96%); backdrop-filter: blur(14px); }
 .az-header__inner { display: flex; min-height: 4.5rem; align-items: center; justify-content: space-between; gap: var(--az-space-5); }
-.az-logo { color: var(--az-navy); font-size: 1.35rem; font-weight: 850; letter-spacing: -.04em; text-decoration: none; display: inline-flex; align-items: center; }
+.az-logo { color: var(--az-navy); font-size: 1.35rem; font-weight: 850; letter-spacing: -.04em; text-decoration: none; display: inline-flex; align-items: center; line-height: 0; }
+.aizengo-logo { display: block; width: auto; height: 3rem; }
 .az-logo span { color: var(--az-primary); }
 .az-nav { display: flex; align-items: center; gap: var(--az-space-6); }
 .az-nav__link { color: var(--az-muted); font-size: .9375rem; font-weight: 600; text-decoration: none; padding-block: .25rem; position: relative; transition: color var(--az-transition); }
@@ -255,7 +256,7 @@ h1, h2, h3, h4, p { margin-top: 0; } h1, h2, h3, h4 { color: var(--az-navy); }
 .az-category-card__arrow { position: absolute; right: var(--az-space-6); bottom: var(--az-space-6); color: var(--az-primary); opacity: 0; transform: translateX(-4px); transition: all var(--az-transition); }
 .az-category-card:hover .az-category-card__arrow { opacity: 1; transform: translateX(0); }
 
-/* Why AZTech */
+/* Why AizenGo */
 .az-why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--az-space-6); }
 .az-why-card { padding: var(--az-space-6); border-radius: var(--az-radius-lg); background: #fff; border: 1px solid var(--az-border); box-shadow: var(--az-shadow-card); transition: transform var(--az-transition), box-shadow var(--az-transition); }
 .az-why-card:hover { transform: translateY(-2px); box-shadow: var(--az-shadow-lg); }
@@ -2273,7 +2274,7 @@ h1, h2, h3, h4, p { margin-top: 0; } h1, h2, h3, h4 { color: var(--az-navy); }
 }
 
 /* ==========================================================================
-   AZTech Speaker Directory & Profile System Styles (Step 8)
+   AizenGo Speaker Directory & Profile System Styles (Step 8)
    ========================================================================== */
 
 /* Speaker Listing Grid (4 columns desktop, 2-3 tablet, 1 mobile) */
@@ -4592,7 +4593,7 @@ h1, h2, h3, h4, p { margin-top: 0; } h1, h2, h3, h4 { color: var(--az-navy); }
 }
 
 /* ==========================================================================
-   AZTech Admin Dashboard System Styles
+   AizenGo Admin Dashboard System Styles
    ========================================================================== */
 
 /* Admin Layout Shell */

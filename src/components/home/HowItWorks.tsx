@@ -39,7 +39,7 @@ export function HowItWorks() {
         <div className="az-section-header az-section-header--center">
           <Badge variant="primary">Process & Flow</Badge>
           <h2 id="how-it-works-heading" className="az-h2" style={{ marginTop: 'var(--az-space-2)' }}>
-            Your Journey With AZTech
+            Your Journey With AizenGo
           </h2>
           <p className="az-body" style={{ color: 'var(--az-muted)', maxWidth: '40rem', marginInline: 'auto' }}>
             A streamlined 4-step path from discovering events to presenting groundbreaking ideas and expanding your worldwide network.

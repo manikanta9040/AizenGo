@@ -10,7 +10,7 @@ import { PageLoader } from '../../../components/common/Loader'
 import { Select } from '../../../components/common/Select'
 import { Textarea } from '../../../components/common/Textarea'
 import { ROUTES } from '../../../constants/routes'
-import { BLOG_CATEGORIES, type BlogCategory, type BlogPost } from '../../../data/blogs'
+import { BLOG_CATEGORIES, type BlogCategory, type BlogPost } from '../../../types/content'
 import { adminBlogService } from '../../../services/adminBlogService'
 
 type BlogCategoryOption = Exclude<BlogCategory, 'All'>

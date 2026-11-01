@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ZoomIn, Tag, MapPin } from 'lucide-react';
-import type { GalleryItem } from '../../data/gallery';
+import type { GalleryItem } from '../../types/content';
 
 interface GalleryGridProps {
   items: GalleryItem[];

@@ -1,39 +1,17 @@
-import { baseConferences } from '../data/conferences'
 import type { Conference } from '../types/conference'
+import { createBackend, listBackend, removeBackend, updateBackend } from './backendDataService'
 
-const STORAGE_KEY = 'aztech.mock.admin.conferences'
-
-function loadConferences(): Conference[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(baseConferences))
-      return baseConferences
-    }
-    return JSON.parse(raw) as Conference[]
-  } catch {
-    return baseConferences
-  }
-}
-
-function saveConferences(conferences: Conference[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(conferences))
-}
+const RESOURCE = 'conferences'
 
 export const adminConferenceService = {
-  getAll: async (): Promise<Conference[]> => {
-    return loadConferences()
-  },
-
+  getAll: (): Promise<Conference[]> => listBackend<Conference>(RESOURCE),
   getById: async (id: string): Promise<Conference | undefined> => {
-    const items = loadConferences()
-    return items.find((c) => c.id === id || c.slug === id)
+    const items = await listBackend<Conference>(RESOURCE)
+    return items.find((item) => item.id === id || item.slug === id)
   },
-
   create: async (data: Omit<Conference, 'id'> & { id?: string }): Promise<Conference> => {
-    const items = loadConferences()
     const id = data.id || `conf-${Date.now()}`
-    const newConf: Conference = {
+    return createBackend(RESOURCE, {
       ...data,
       id,
       slug: data.slug || data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''),
@@ -41,45 +19,23 @@ export const adminConferenceService = {
       attendeesCount: data.attendeesCount ?? 0,
       speakersCount: data.speakersCount ?? 0,
       featured: Boolean(data.featured),
-    }
-    items.unshift(newConf)
-    saveConferences(items)
-    return newConf
+    })
   },
-
   update: async (id: string, patch: Partial<Conference>): Promise<Conference> => {
-    const items = loadConferences()
-    const index = items.findIndex((c) => c.id === id)
-    if (index === -1) throw new Error(`Conference with id "${id}" not found.`)
-    const updated: Conference = { ...items[index], ...patch }
-    items[index] = updated
-    saveConferences(items)
-    return updated
+    const current = await adminConferenceService.getById(id)
+    if (!current) throw new Error(`Conference with id "${id}" not found.`)
+    return updateBackend(RESOURCE, current.id, { ...current, ...patch })
   },
-
-  delete: async (id: string): Promise<void> => {
-    const items = loadConferences()
-    const filtered = items.filter((c) => c.id !== id)
-    saveConferences(filtered)
-  },
-
+  delete: (id: string): Promise<void> => removeBackend(RESOURCE, id),
   togglePublish: async (id: string): Promise<Conference> => {
-    const items = loadConferences()
-    const index = items.findIndex((c) => c.id === id)
-    if (index === -1) throw new Error('Conference not found')
-    const current = items[index]
-    const nextStatus = current.status === 'closed' || current.status === 'completed' ? 'registration_open' : 'closed'
-    items[index] = { ...current, status: nextStatus }
-    saveConferences(items)
-    return items[index]
+    const current = await adminConferenceService.getById(id)
+    if (!current) throw new Error('Conference not found')
+    const status = current.status === 'closed' || current.status === 'completed' ? 'registration_open' : 'closed'
+    return updateBackend(RESOURCE, current.id, { ...current, status })
   },
-
   toggleFeatured: async (id: string): Promise<Conference> => {
-    const items = loadConferences()
-    const index = items.findIndex((c) => c.id === id)
-    if (index === -1) throw new Error('Conference not found')
-    items[index] = { ...items[index], featured: !items[index].featured }
-    saveConferences(items)
-    return items[index]
+    const current = await adminConferenceService.getById(id)
+    if (!current) throw new Error('Conference not found')
+    return updateBackend(RESOURCE, current.id, { ...current, featured: !current.featured })
   },
 }

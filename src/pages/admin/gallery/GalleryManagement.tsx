@@ -14,7 +14,7 @@ import { Input } from '../../../components/common/Input'
 import { Select } from '../../../components/common/Select'
 import { Textarea } from '../../../components/common/Textarea'
 import { ROUTES } from '../../../constants/routes'
-import { GALLERY_CATEGORIES, type GalleryCategory, type GalleryItem } from '../../../data/gallery'
+import { GALLERY_CATEGORIES, type GalleryCategory, type GalleryItem } from '../../../types/content'
 import { adminGalleryService } from '../../../services/adminGalleryService'
 
 type GalleryCategoryOption = Exclude<GalleryCategory, 'All'>

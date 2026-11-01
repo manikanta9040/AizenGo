@@ -4,15 +4,13 @@ import { APP_NAME, APP_TAGLINE } from '../../constants/app';
 
 const quickLinks = [
   { label: 'Home', href: '/' },
-  { label: 'About AZTech', href: '/about' },
+  { label: 'About AizenGo', href: '/about' },
   { label: 'Upcoming Conferences', href: '/conferences' },
-  { label: 'Keynote Speakers', href: '/speakers' },
   { label: 'Contact Us', href: '/contact' },
 ];
 
 const resourceLinks = [
   { label: 'Frequently Asked Questions', href: '/faq' },
-  { label: 'Research Blogs & News', href: '/blogs' },
   { label: 'Conference Photo Gallery', href: '/gallery' },
   { label: 'Website Sitemap', href: '/sitemap' },
 ];
@@ -76,12 +74,12 @@ export function Footer() {
       <div className="az-container az-footer__grid">
         {/* Brand & About Column */}
         <div className="az-footer__brand">
-          <Link className="az-logo" to="/" aria-label="AZTech Home" style={{ color: '#ffffff' }}>
-            AZ<span>Tech</span>
+          <Link className="az-logo" to="/" aria-label="AizenGo Home">
+            <img className="aizengo-logo" src="/aizengo-logo.svg" alt="AizenGo" />
           </Link>
           <p className="az-footer__tagline">{APP_TAGLINE}</p>
           <p className="az-body-sm" style={{ color: '#9bb0c6', maxWidth: '22rem', marginTop: 'var(--az-space-3)' }}>
-            AZTech is a premier international conference platform connecting researchers, academics, innovators, and industry leaders through global knowledge-sharing events.
+            AizenGo is a premier international conference platform connecting researchers, academics, innovators, and industry leaders through global knowledge-sharing events.
           </p>
           <div className="az-footer__socials" style={{ display: 'flex', gap: 'var(--az-space-3)', marginTop: 'var(--az-space-4)' }}>
             {socialLinks.map(({ label, icon: Icon, href }) => (
@@ -129,16 +127,24 @@ export function Footer() {
           <div className="az-footer__contact" style={{ display: 'grid', gap: 'var(--az-space-3)' }}>
             <div style={{ display: 'flex', gap: 'var(--az-space-2)', alignItems: 'flex-start' }}>
               <Mail size={16} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '3px' }} />
-              <span className="az-body-sm">contact@aztechconferences.org</span>
+              <a className="az-body-sm" href="mailto:hello@aizen.com">hello@aizen.com</a>
             </div>
             <div style={{ display: 'flex', gap: 'var(--az-space-2)', alignItems: 'flex-start' }}>
               <Phone size={16} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '3px' }} />
-              <span className="az-body-sm">+1 (800) 555-AZTECH</span>
+              <span className="az-body-sm">+1 (800) 555-AIZENGO</span>
             </div>
             <div style={{ display: 'flex', gap: 'var(--az-space-2)', alignItems: 'flex-start' }}>
               <MapPin size={16} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '3px' }} />
               <span className="az-body-sm">Tech Hub Plaza, San Francisco & Hyderabad</span>
             </div>
+            <a
+              className="az-body-sm"
+              href="https://aizengo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              AizenGo — Academic Conference Platform
+            </a>
           </div>
         </section>
       </div>

@@ -19,7 +19,7 @@ export function CTASection() {
             </h2>
 
             <p className="az-cta-banner__desc az-body-lg">
-              Discover upcoming AZTech conferences and connect with experts, researchers and industry leaders shaping tomorrow's technology.
+              Discover upcoming AizenGo conferences and connect with experts, researchers and industry leaders shaping tomorrow's technology.
             </p>
 
             <div className="az-cta-banner__actions">
@@ -29,7 +29,7 @@ export function CTASection() {
               </Link>
               <Link to="/register" className="az-button az-button--outline az-button--lg az-cta-banner__btn-alt">
                 <UserPlus size={18} aria-hidden="true" />
-                <span>Join AZTech</span>
+                <span>Join AizenGo</span>
               </Link>
             </div>
           </div>

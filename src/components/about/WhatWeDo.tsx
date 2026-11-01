@@ -54,7 +54,7 @@ export function WhatWeDo() {
         <div className="az-section-header az-section-header--center">
           <Badge variant="primary">Platform Offerings</Badge>
           <h2 id="what-we-do-heading" className="az-h2" style={{ marginTop: 'var(--az-space-2)' }}>
-            What We Do at AZTech
+            What We Do at AizenGo
           </h2>
           <p className="az-body" style={{ color: 'var(--az-muted)', maxWidth: '42rem', marginInline: 'auto' }}>
             Comprehensive conference services and academic programs designed to support researchers at every phase of the scholarly lifecycle.

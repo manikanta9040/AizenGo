@@ -28,11 +28,11 @@ export function ConferenceFAQ({ conference }: ConferenceFAQProps) {
     },
     {
       question: 'Will I receive an official Certificate of Participation / Presentation?',
-      answer: 'Yes. All registered attendees, oral presenters, and session chairs receive an officially accredited, digitally verifiable certificate with a unique verification ID issued by AZTech.',
+      answer: 'Yes. All registered attendees, oral presenters, and session chairs receive an officially accredited, digitally verifiable certificate with a unique verification ID issued by AizenGo.',
     },
     {
       question: 'What is the cancellation and refund policy?',
-      answer: 'Full refunds are available up to 30 days prior to the conference start date (less a 10% administrative fee). Registrations can also be transferred to a colleague or deferred to a future AZTech conference at no additional charge.',
+      answer: 'Full refunds are available up to 30 days prior to the conference start date (less a 10% administrative fee). Registrations can also be transferred to a colleague or deferred to a future AizenGo conference at no additional charge.',
     },
   ];
 

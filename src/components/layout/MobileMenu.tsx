@@ -3,11 +3,9 @@ import { NavLink, Link } from 'react-router-dom';
 
 const navLinks = [
   { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
-  { label: 'Conferences', path: '/conferences' },
-  { label: 'Speakers', path: '/speakers' },
-  { label: 'Blogs', path: '/blogs' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'About', path: '/about', newTab: true },
+  { label: 'Conferences', path: '/conferences', newTab: true },
+  { label: 'Contact', path: '/contact', newTab: true },
 ];
 
 interface MobileMenuProps {
@@ -39,6 +37,8 @@ export function MobileMenu({ id, open, onNavigate }: MobileMenuProps) {
                       ? 'az-mobile-menu__link az-mobile-menu__link--active'
                       : 'az-mobile-menu__link'
                   }
+                  target={link.newTab ? '_blank' : undefined}
+                  rel={link.newTab ? 'noopener noreferrer' : undefined}
                   onClick={onNavigate}
                   end={link.path === '/'}
                 >

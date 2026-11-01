@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
-import { mockConferences } from '../../data/conferences';
+import type { Conference } from '../../types/conference';
+import { useBackendData } from '../../hooks/useBackendData';
 import { useConferenceFilters } from '../../hooks/useConferenceFilters';
 import { ConferencePageHeader } from '../../components/conference/ConferencePageHeader';
 import { ConferenceSearch } from '../../components/conference/ConferenceSearch';
@@ -14,6 +15,7 @@ import { Modal } from '../../components/common/Modal';
 
 export function Conferences() {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const conferences = useBackendData<Conference>('conferences');
 
   const {
     filters,
@@ -35,7 +37,7 @@ export function Conferences() {
     setPage,
     clearFilters,
     removeFilter,
-  } = useConferenceFilters(mockConferences);
+  } = useConferenceFilters(conferences);
 
   return (
     <div className="az-conferences-page">

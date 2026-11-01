@@ -4,27 +4,29 @@ import { ChevronRight, Camera, Sparkles, ArrowRight } from 'lucide-react';
 import { Badge } from '../../components/common/Badge';
 import { GalleryGrid } from '../../components/gallery/GalleryGrid';
 import { GalleryLightbox } from '../../components/gallery/GalleryLightbox';
-import { mockGalleryItems, GALLERY_CATEGORIES, type GalleryCategory } from '../../data/gallery';
+import { GALLERY_CATEGORIES, type GalleryCategory, type GalleryItem } from '../../types/content';
+import { useBackendData } from '../../hooks/useBackendData';
 
 export default function Gallery() {
+  const galleryItems = useBackendData<GalleryItem>('gallery');
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>('All');
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = 'Conference Photo Gallery | AZTech Event Moments';
+    document.title = 'Conference Photo Gallery | AizenGo Event Moments';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Explore photo highlights and moments from AZTech international academic conferences, keynote sessions, interactive workshops, and gala dinners.'
+        'Explore photo highlights and moments from AizenGo international academic conferences, keynote sessions, interactive workshops, and gala dinners.'
       );
     }
   }, []);
 
   const filteredItems = useMemo(() => {
-    if (selectedCategory === 'All') return mockGalleryItems;
-    return mockGalleryItems.filter((item) => item.category === selectedCategory);
-  }, [selectedCategory]);
+    if (selectedCategory === 'All') return galleryItems;
+    return galleryItems.filter((item) => item.category === selectedCategory);
+  }, [galleryItems, selectedCategory]);
 
   const activeItem = activeImageIndex !== null ? filteredItems[activeImageIndex] : null;
 
@@ -79,7 +81,7 @@ export default function Gallery() {
             </div>
 
             <h1 id="gallery-page-title" className="az-gallery-hero__title">
-              AZTech <span className="az-gradient-text">Conference Gallery</span>
+              AizenGo <span className="az-gradient-text">Conference Gallery</span>
             </h1>
 
             <p className="az-gallery-hero__description az-body-lg">
@@ -151,7 +153,7 @@ export default function Gallery() {
                 <span>Experience It Live</span>
               </div>
               <h2 id="gallery-cta-heading" className="az-cta-banner__title">
-                Be at the Next AZTech Global Summit
+                Be at the Next AizenGo Global Summit
               </h2>
               <p className="az-cta-banner__desc az-body-lg">
                 Join international researchers, keynote authorities, and academic peers in historic convention destinations.
@@ -161,8 +163,8 @@ export default function Gallery() {
                   <span>Explore Upcoming Conferences</span>
                   <ArrowRight size={18} aria-hidden="true" />
                 </Link>
-                <Link to="/speakers" className="az-button az-button--outline az-button--lg az-cta-banner__btn-alt">
-                  <span>Meet Our Speakers</span>
+                <Link to="/contact" className="az-button az-button--outline az-button--lg az-cta-banner__btn-alt">
+                  <span>Contact AizenGo</span>
                 </Link>
               </div>
             </div>

@@ -1,0 +1,2 @@
+import type { UserProfile } from '../../../src/types/user'
+export const defaultUserProfile: UserProfile = { id: 'dev-user-001', name: 'AizenGo Attendee', email: 'user@aizen.test', phone: '+91 98765 43210', organization: 'AizenGo Community', jobTitle: 'Research Associate', country: 'India', city: 'Hyderabad', biography: 'Conference participant interested in responsible technology and practical research.', interests: ['Artificial Intelligence', 'Sustainability', 'Open Source'], linkedin: 'https://linkedin.com', website: 'https://aizengo.com' }

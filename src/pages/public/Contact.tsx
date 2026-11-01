@@ -8,12 +8,12 @@ import { ContactForm } from '../../components/contact/ContactForm';
 
 export default function Contact() {
   useEffect(() => {
-    document.title = 'Contact Us | AZTech — Global Conference Support';
+    document.title = 'Contact Us | AizenGo — Global Conference Support';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Have a question, partnership opportunity or conference inquiry? Connect with the AZTech global conference organizing team.'
+        'Have a question, partnership opportunity or conference inquiry? Connect with the AizenGo global conference organizing team.'
       );
     }
   }, []);
@@ -88,7 +88,7 @@ export default function Contact() {
           <div className="az-section-header az-section-header--center">
             <Badge variant="primary">Global Presence</Badge>
             <h2 className="az-h2" style={{ marginTop: 'var(--az-space-2)' }}>
-              AZTech International Locations
+              AizenGo International Locations
             </h2>
             <p className="az-body" style={{ color: 'var(--az-muted)', maxWidth: '40rem', marginInline: 'auto' }}>
               Coordinating international academic summits across key scientific hubs in the Americas, Europe, and Asia-Pacific.

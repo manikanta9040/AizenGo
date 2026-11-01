@@ -77,7 +77,7 @@ export function ContactForm() {
             </div>
             <h3 className="az-contact-success__title">Thank You! Message Received</h3>
             <p className="az-body">
-              Your inquiry has been successfully routed to the AZTech Conference Secretariat.
+              Your inquiry has been successfully routed to the AizenGo Conference Secretariat.
             </p>
             <div className="az-contact-success__ref-box">
               <span className="az-caption">Inquiry Reference Number:</span>

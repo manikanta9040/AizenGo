@@ -6,11 +6,9 @@ import { MobileMenu } from './MobileMenu';
 
 const navLinks = [
   { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
-  { label: 'Conferences', path: '/conferences' },
-  { label: 'Speakers', path: '/speakers' },
-  { label: 'Blogs', path: '/blogs' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'About', path: '/about', newTab: true },
+  { label: 'Conferences', path: '/conferences', newTab: true },
+  { label: 'Contact', path: '/contact', newTab: true },
 ];
 
 export function Header() {
@@ -24,8 +22,8 @@ export function Header() {
   return (
     <header className="az-header" role="banner">
       <div className="az-container az-header__inner">
-        <Link className="az-logo" to="/" aria-label="AZTech Home">
-          AZ<span>Tech</span>
+        <Link className="az-logo" to="/" aria-label="AizenGo Home">
+          <img className="aizengo-logo" src="/aizengo-logo.svg" alt="AizenGo" />
         </Link>
 
         <nav className="az-nav" aria-label="Primary navigation">
@@ -36,6 +34,8 @@ export function Header() {
               className={({ isActive }) =>
                 isActive ? 'az-nav__link az-nav__link--active' : 'az-nav__link'
               }
+              target={link.newTab ? '_blank' : undefined}
+              rel={link.newTab ? 'noopener noreferrer' : undefined}
               end={link.path === '/'}
             >
               {link.label}

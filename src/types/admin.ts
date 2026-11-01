@@ -90,3 +90,15 @@ export interface ReportSummary {
   conferenceDistribution: { title: string; count: number; revenue: number }[]
   registrationTypeDistribution: { type: string; count: number; revenue: number }[]
 }
+
+export interface MonthlyRevenuePoint {
+  month: string
+  revenue: number
+  target: number
+}
+
+export interface AbstractReviewPoint {
+  status: string
+  count: number
+  color: string
+}

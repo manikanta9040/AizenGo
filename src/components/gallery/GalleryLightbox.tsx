@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, MapPin, Calendar, Tag } from 'lucide-react';
-import type { GalleryItem } from '../../data/gallery';
+import type { GalleryItem } from '../../types/content';
 
 interface GalleryLightboxProps {
   item: GalleryItem | null;

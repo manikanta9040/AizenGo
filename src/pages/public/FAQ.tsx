@@ -5,26 +5,28 @@ import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
 import { EmptyState } from '../../components/common/EmptyState';
 import { FAQAccordion } from '../../components/faq/FAQAccordion';
-import { mockFAQs, FAQ_CATEGORIES, type FAQCategory } from '../../data/faqs';
+import { FAQ_CATEGORIES, type FAQCategory, type FAQItem } from '../../types/content';
+import { useBackendData } from '../../hooks/useBackendData';
 
 export default function FAQ() {
+  const faqs = useBackendData<FAQItem>('faqs');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<FAQCategory>('All');
 
   useEffect(() => {
-    document.title = 'Frequently Asked Questions | AZTech Support & Resources';
+    document.title = 'Frequently Asked Questions | AizenGo Support & Resources';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Find answers to common questions about AZTech conference registrations, abstract submissions, speaker proposals, payments, and certificates.'
+        'Find answers to common questions about AizenGo conference registrations, abstract submissions, speaker proposals, payments, and certificates.'
       );
     }
   }, []);
 
   const filteredFAQs = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
-    return mockFAQs.filter((faq) => {
+    return faqs.filter((faq) => {
       const matchesCategory =
         selectedCategory === 'All' || faq.category === selectedCategory;
       const matchesSearch =
@@ -34,7 +36,7 @@ export default function FAQ() {
         (faq.tags && faq.tags.some((tag) => tag.toLowerCase().includes(query)));
       return matchesCategory && matchesSearch;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [faqs, searchQuery, selectedCategory]);
 
   const handleClearFilters = () => {
     setSearchQuery('');

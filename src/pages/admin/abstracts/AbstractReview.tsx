@@ -26,7 +26,7 @@ import type { AbstractStatus, AbstractSubmission } from '../../../types/abstract
 const REVIEWERS_LIST = [
   'Dr. Sarah Mitchell (Stanford University)',
   'Dr. Marcus Vance (MIT Consortia)',
-  'Prof. Elena Rostova (AZTech Scientific Board)',
+  'Prof. Elena Rostova (AizenGo Scientific Board)',
   'Dr. Aris Thorne (Stanford Robotics Lab)',
   'Aisha Al-Mansoor (Khalifa University)',
 ]

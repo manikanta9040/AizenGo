@@ -74,7 +74,7 @@ export function HeroSection() {
                 <span className="az-dot az-dot--yellow" />
                 <span className="az-dot az-dot--green" />
               </div>
-              <Badge variant="primary">AZTech Flagship Summit</Badge>
+              <Badge variant="primary">AizenGo Flagship Summit</Badge>
             </div>
 
             <div className="az-hero-visual-card__body">

@@ -385,7 +385,7 @@ export default function CreateConference() {
 
             <div className="az-grid-col-2 az-form-checkbox-wrap">
               <Checkbox
-                label="Feature on AZTech Home Page (Highlight as flagship summit)"
+                label="Feature on AizenGo Home Page (Highlight as flagship summit)"
                 checked={featured}
                 onChange={(e) => setFeatured(e.target.checked)}
               />

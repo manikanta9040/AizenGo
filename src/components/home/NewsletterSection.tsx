@@ -50,7 +50,7 @@ export function NewsletterSection() {
           <div className="az-newsletter-card__content">
             <Badge variant="primary">Newsletter</Badge>
             <h2 id="newsletter-heading" className="az-h2" style={{ marginTop: 'var(--az-space-2)' }}>
-              Stay Updated With AZTech
+              Stay Updated With AizenGo
             </h2>
             <p className="az-body" style={{ color: 'var(--az-muted)', maxWidth: '36rem' }}>
               Receive updates about upcoming conferences, registration deadlines, early bird discounts, and important scientific announcements.

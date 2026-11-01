@@ -8,7 +8,7 @@ interface ValueItem {
   description: string;
 }
 
-const aztechValues: ValueItem[] = [
+const aizengoValues: ValueItem[] = [
   {
     id: 'val-innovation',
     icon: Lightbulb,
@@ -54,7 +54,7 @@ export function ValuesSection() {
         <div className="az-section-header az-section-header--center">
           <Badge variant="primary">Core Principles</Badge>
           <h2 id="values-heading" className="az-h2" style={{ marginTop: 'var(--az-space-2)' }}>
-            The Values That Guide AZTech
+            The Values That Guide AizenGo
           </h2>
           <p className="az-body" style={{ color: 'var(--az-muted)', maxWidth: '42rem', marginInline: 'auto' }}>
             Our values shape every summit we organize, every manuscript we review, and every international partnership we build.
@@ -62,7 +62,7 @@ export function ValuesSection() {
         </div>
 
         <div className="az-values-grid">
-          {aztechValues.map((val) => {
+          {aizengoValues.map((val) => {
             const Icon = val.icon;
             return (
               <div key={val.id} className="az-value-card">

@@ -42,7 +42,7 @@ export function ConferenceCommittee({ conference }: ConferenceCommitteeProps) {
       name: 'Elena Weber',
       role: 'Organizing Secretary',
       designation: 'Director of Conferences',
-      organization: 'AZTech International Federation',
+      organization: 'AizenGo International Federation',
       country: 'Germany',
       image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80',
       category: 'organizing',

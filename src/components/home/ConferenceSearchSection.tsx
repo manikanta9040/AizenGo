@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Tag, Calendar, X } from 'lucide-react';
-import { mockCategories } from '../../data/categories';
-import { mockConferences } from '../../data/conferences';
-
-// Extract unique countries from mock data
-const availableCountries = Array.from(new Set(mockConferences.map((c) => c.country))).sort();
+import type { CategoryItem } from '../../types/content';
+import type { Conference } from '../../types/conference';
+import { useBackendData } from '../../hooks/useBackendData';
 
 export function ConferenceSearchSection() {
   const [keyword, setKeyword] = useState('');
@@ -13,6 +11,9 @@ export function ConferenceSearchSection() {
   const [country, setCountry] = useState('');
   const [dateFilter, setDateFilter] = useState('');
   const navigate = useNavigate();
+  const categories = useBackendData<CategoryItem>('categories');
+  const conferences = useBackendData<Conference>('conferences');
+  const availableCountries = Array.from(new Set(conferences.map((c) => c.country))).sort();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,7 +95,7 @@ export function ConferenceSearchSection() {
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <option value="">All Categories</option>
-                    {mockCategories.map((cat) => (
+                    {categories.map((cat) => (
                       <option key={cat.id} value={cat.name}>
                         {cat.name}
                       </option>

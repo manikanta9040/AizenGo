@@ -57,8 +57,8 @@ export default function AdminSidebar({ open, onClose }: AdminSidebarProps) {
       <aside className={`az-admin-sidebar ${open ? 'is-open' : ''}`} aria-label="Admin sidebar navigation">
         <div className="az-admin-sidebar__top">
           <div className="az-admin-sidebar__brand">
-            <span className="az-logo">
-              AZ<span>Tech</span>
+            <span className="az-logo" aria-label="AizenGo">
+              <img className="aizengo-logo" src="/aizengo-logo.svg" alt="AizenGo" />
             </span>
             <span className="az-admin-sidebar__badge">ADMIN</span>
           </div>

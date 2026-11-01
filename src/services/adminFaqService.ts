@@ -1,76 +1,27 @@
-import { mockFAQs, type FAQItem } from '../data/faqs'
+import type { FAQItem } from '../types/content'
+import { createBackend, listBackend, removeBackend, updateBackend } from './backendDataService'
 
-const STORAGE_KEY = 'aztech.mock.admin.faqs'
-
-function loadFaqs(): FAQItem[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) {
-      const initialized = mockFAQs.map((item, index) => ({
-        ...item,
-        order: item.order ?? index + 1,
-        status: item.status ?? 'PUBLISHED',
-      }))
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialized))
-      return initialized
-    }
-    return JSON.parse(raw) as FAQItem[]
-  } catch {
-    return mockFAQs
-  }
-}
-
-function saveFaqs(items: FAQItem[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
-}
+const RESOURCE = 'faqs'
 
 export const adminFaqService = {
-  getAll: async (): Promise<FAQItem[]> => {
-    return loadFaqs()
-  },
-
+  getAll: (): Promise<FAQItem[]> => listBackend<FAQItem>(RESOURCE),
   getById: async (id: string): Promise<FAQItem | undefined> => {
-    const items = loadFaqs()
-    return items.find((f) => f.id === id)
+    const items = await listBackend<FAQItem>(RESOURCE)
+    return items.find((item) => item.id === id)
   },
-
   create: async (data: Omit<FAQItem, 'id'>): Promise<FAQItem> => {
-    const items = loadFaqs()
-    const newFaq: FAQItem = {
-      ...data,
-      id: `faq-${Date.now()}`,
-      order: data.order ?? items.length + 1,
-      status: data.status ?? 'PUBLISHED',
-    }
-    items.push(newFaq)
-    saveFaqs(items)
-    return newFaq
+    const items = await listBackend<FAQItem>(RESOURCE)
+    return createBackend(RESOURCE, { ...data, id: `faq-${Date.now()}`, order: data.order ?? items.length + 1, status: data.status ?? 'PUBLISHED' })
   },
-
   update: async (id: string, patch: Partial<FAQItem>): Promise<FAQItem> => {
-    const items = loadFaqs()
-    const index = items.findIndex((f) => f.id === id)
-    if (index === -1) throw new Error(`FAQ with id "${id}" not found.`)
-    const updated: FAQItem = { ...items[index], ...patch }
-    items[index] = updated
-    saveFaqs(items)
-    return updated
+    const current = await adminFaqService.getById(id)
+    if (!current) throw new Error(`FAQ with id "${id}" not found.`)
+    return updateBackend(RESOURCE, id, { ...current, ...patch })
   },
-
-  delete: async (id: string): Promise<void> => {
-    const items = loadFaqs()
-    const filtered = items.filter((f) => f.id !== id)
-    saveFaqs(filtered)
-  },
-
+  delete: (id: string): Promise<void> => removeBackend(RESOURCE, id),
   togglePublish: async (id: string): Promise<FAQItem> => {
-    const items = loadFaqs()
-    const index = items.findIndex((f) => f.id === id)
-    if (index === -1) throw new Error('FAQ not found')
-    const current = items[index]
-    const nextStatus: 'PUBLISHED' | 'DRAFT' = current.status === 'DRAFT' ? 'PUBLISHED' : 'DRAFT'
-    items[index] = { ...current, status: nextStatus }
-    saveFaqs(items)
-    return items[index]
+    const current = await adminFaqService.getById(id)
+    if (!current) throw new Error('FAQ not found')
+    return updateBackend(RESOURCE, id, { ...current, status: current.status === 'DRAFT' ? 'PUBLISHED' : 'DRAFT' })
   },
 }

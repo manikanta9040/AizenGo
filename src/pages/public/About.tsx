@@ -1,24 +1,24 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ArrowRight, Users, Sparkles, Globe } from 'lucide-react';
+import { ChevronRight, ArrowRight, Sparkles, Globe } from 'lucide-react';
 import { Badge } from '../../components/common/Badge';
 import { AboutOverview } from '../../components/about/AboutOverview';
 import { MissionSection } from '../../components/about/MissionSection';
 import { VisionSection } from '../../components/about/VisionSection';
 import { ValuesSection } from '../../components/about/ValuesSection';
 import { WhatWeDo } from '../../components/about/WhatWeDo';
-import { WhyAzTech } from '../../components/home/WhyAzTech';
+import { WhyAizenGo } from '../../components/home/WhyAizenGo';
 import { StatisticsSection } from '../../components/home/StatisticsSection';
 import { HowItWorks } from '../../components/home/HowItWorks';
 
 export default function About() {
   useEffect(() => {
-    document.title = 'About Us | AZTech — Connecting Ideas & Inspiring Innovation';
+    document.title = 'About Us | AizenGo — Connecting Ideas & Inspiring Innovation';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'AZTech brings researchers, professionals, academics, industry leaders and innovators together through meaningful conferences and knowledge-sharing experiences.'
+        'AizenGo brings researchers, professionals, academics, industry leaders and innovators together through meaningful conferences and knowledge-sharing experiences.'
       );
     }
   }, []);
@@ -64,7 +64,7 @@ export default function About() {
             </h1>
 
             <p className="az-about-hero__description az-body-lg">
-              AZTech brings researchers, professionals, academics, industry leaders and innovators together through meaningful conferences and knowledge-sharing experiences.
+              AizenGo brings researchers, professionals, academics, industry leaders and innovators together through meaningful conferences and knowledge-sharing experiences.
             </p>
 
             <div className="az-about-hero__cta-group">
@@ -72,16 +72,15 @@ export default function About() {
                 <span>Explore Conferences</span>
                 <ArrowRight size={18} aria-hidden="true" />
               </Link>
-              <Link to="/speakers" className="az-button az-button--outline az-button--lg">
-                <Users size={18} aria-hidden="true" />
-                <span>Meet Our Speakers</span>
+              <Link to="/contact" className="az-button az-button--outline az-button--lg">
+                <span>Contact AizenGo</span>
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. About AZTech Overview */}
+      {/* 3. About AizenGo Overview */}
       <AboutOverview />
 
       {/* 4. Mission Section */}
@@ -96,13 +95,13 @@ export default function About() {
       {/* 7. What We Do */}
       <WhatWeDo />
 
-      {/* 8. Why AZTech Advantage */}
-      <WhyAzTech />
+      {/* 8. Why AizenGo Advantage */}
+      <WhyAizenGo />
 
       {/* 9. Global Statistics */}
       <StatisticsSection />
 
-      {/* 10. How AZTech Works */}
+      {/* 10. How AizenGo Works */}
       <HowItWorks />
 
       {/* 11. CTA Banner */}
@@ -119,7 +118,7 @@ export default function About() {
                 Be Part of a Global Knowledge Community
               </h2>
               <p className="az-cta-banner__desc az-body-lg">
-                Join thousands of scholars, researchers, and innovative leaders presenting breakthroughs across worldwide AZTech summits.
+                Join thousands of scholars, researchers, and innovative leaders presenting breakthroughs across worldwide AizenGo summits.
               </p>
               <div className="az-cta-banner__actions">
                 <Link to="/conferences" className="az-button az-button--primary az-button--lg">
@@ -127,7 +126,7 @@ export default function About() {
                   <ArrowRight size={18} aria-hidden="true" />
                 </Link>
                 <Link to="/register" className="az-button az-button--outline az-button--lg az-cta-banner__btn-alt">
-                  <span>Join AZTech</span>
+                  <span>Join AizenGo</span>
                 </Link>
               </div>
             </div>

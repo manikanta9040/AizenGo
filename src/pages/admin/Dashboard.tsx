@@ -22,13 +22,14 @@ import {
 import { Badge } from '../../components/common/Badge'
 import { Button } from '../../components/common/Button'
 import { ROUTES } from '../../constants/routes'
-import { mockAdminStats, mockCategoryStats, mockRegistrationGrowth } from '../../data/adminStats'
+import { useBackendData } from '../../hooks/useBackendData'
 import { adminAbstractService } from '../../services/adminAbstractService'
 import { adminConferenceService } from '../../services/adminConferenceService'
 import { adminRegistrationService } from '../../services/adminRegistrationService'
 import type { AbstractSubmission } from '../../types/abstract'
 import type { Conference } from '../../types/conference'
 import type { Registration } from '../../types/registration'
+import type { AdminStatItem, ConferenceCategoryStat, RegistrationGrowthPoint } from '../../types/admin'
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -36,6 +37,9 @@ export default function Dashboard() {
   const [abstracts, setAbstracts] = useState<AbstractSubmission[]>([])
   const [conferences, setConferences] = useState<Conference[]>([])
   const [loading, setLoading] = useState(true)
+  const adminStats = useBackendData<AdminStatItem>('adminStats')
+  const categoryStats = useBackendData<ConferenceCategoryStat>('categoryStats')
+  const registrationGrowth = useBackendData<RegistrationGrowthPoint>('registrationGrowth')
 
   // Registration detail modal state
   const [selectedReg, setSelectedReg] = useState<Registration | null>(null)
@@ -91,7 +95,7 @@ export default function Dashboard() {
 
       <div className="az-admin-page__header">
         <div>
-          <h1 className="az-admin-page__title">Welcome to AZTech Admin</h1>
+          <h1 className="az-admin-page__title">Welcome to AizenGo Admin</h1>
           <p className="az-admin-page__subtitle">
             Manage conferences, users, registrations and content.
           </p>
@@ -108,7 +112,7 @@ export default function Dashboard() {
 
       {/* 1. Statistics Grid */}
       <section className="az-admin-stats-grid" aria-label="Key Performance Indicators">
-        {mockAdminStats.map((stat) => (
+        {adminStats.map((stat) => (
           <AdminStatCard key={stat.id} stat={stat} />
         ))}
       </section>
@@ -171,15 +175,15 @@ export default function Dashboard() {
       {/* 3. Analytics Charts */}
       <section className="az-admin-charts-grid" aria-label="Platform Analytics Charts">
         <div className="az-admin-charts-grid__left">
-          <RegistrationTrendChart data={mockRegistrationGrowth} />
+          <RegistrationTrendChart data={registrationGrowth} />
         </div>
         <div className="az-admin-charts-grid__right">
-          <CategoryPieChart data={mockCategoryStats} />
+          <CategoryPieChart data={categoryStats} />
         </div>
       </section>
 
       <section className="az-admin-chart-full">
-        <RevenueOverviewChart data={mockRegistrationGrowth} />
+        <RevenueOverviewChart data={registrationGrowth} />
       </section>
 
       {/* 4. Two-Column Activity Overview: Registrations & Abstracts */}

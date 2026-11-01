@@ -14,11 +14,17 @@ export function ContactInfo() {
             <p className="az-body-sm" style={{ color: 'var(--az-muted)', margin: '4px 0 2px' }}>
               General & Conference Inquiries:
             </p>
-            <a href="mailto:hello@aztech.example" style={{ color: 'var(--az-primary)', fontWeight: 600, fontSize: '0.9375rem' }}>
-              hello@aztech.example
+            <a href="mailto:hello@aizen.com" style={{ color: 'var(--az-primary)', fontWeight: 600, fontSize: '0.9375rem' }}>
+              hello@aizen.com
+            </a>
+            <p className="az-caption" style={{ margin: '6px 0 0', color: 'var(--az-muted)' }}>
+              Website: <a href="https://aizengo.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--az-primary)' }}>AizenGo — Academic Conference Platform</a>
+            </p>
+            <a className="az-caption" href="https://aizengo.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--az-primary)' }}>
+              https://aizengo.com
             </a>
             <p className="az-caption" style={{ margin: '4px 0 0', color: 'var(--az-muted)' }}>
-              Abstract Submissions: submissions@aztech.example
+              Abstract Submissions: submissions@aizen.com
             </p>
           </div>
         </CardContent>
@@ -38,7 +44,7 @@ export function ContactInfo() {
               +91 00000 00000
             </a>
             <p className="az-caption" style={{ margin: '4px 0 0', color: 'var(--az-muted)' }}>
-              Toll-Free (US/CA): +1 (800) 555-AZTECH
+              Toll-Free (US/CA): +1 (800) 555-AIZENGO
             </p>
           </div>
         </CardContent>
@@ -52,7 +58,7 @@ export function ContactInfo() {
           <div>
             <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700 }}>Global Headquarters</h3>
             <p className="az-body-sm" style={{ color: 'var(--az-text)', margin: '4px 0 0', fontWeight: 550 }}>
-              AZTech International Centre
+              AizenGo International Centre
             </p>
             <p className="az-body-sm" style={{ color: 'var(--az-muted)', margin: '2px 0 0' }}>
               HITEC City Innovation Boulevard, Madhapur<br />

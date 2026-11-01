@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Edit, Eye, Plus, Star, Trash2 } from 'lucide-react'
+import { Edit, Plus, Star, Trash2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AdminBreadcrumbs } from '../../../components/admin/AdminBreadcrumbs'
 import { AdminModal } from '../../../components/admin/AdminModal'
@@ -169,15 +169,6 @@ export default function SpeakerList() {
       align: 'right',
       render: (spk) => (
         <div className="az-action-buttons">
-          <a
-            href={`/speakers/${spk.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="az-action-btn"
-            title="View public profile"
-          >
-            <Eye size={15} />
-          </a>
           <button
             type="button"
             className="az-action-btn"

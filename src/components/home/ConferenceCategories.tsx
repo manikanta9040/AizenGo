@@ -11,7 +11,8 @@ import {
   ArrowRight,
   type LucideIcon,
 } from 'lucide-react';
-import { mockCategories, type CategoryItem } from '../../data/categories';
+import type { CategoryItem } from '../../types/content';
+import { useBackendData } from '../../hooks/useBackendData';
 import { Badge } from '../common/Badge';
 
 const iconMap: Record<CategoryItem['iconName'], LucideIcon> = {
@@ -26,6 +27,7 @@ const iconMap: Record<CategoryItem['iconName'], LucideIcon> = {
 };
 
 export function ConferenceCategories() {
+  const categories = useBackendData<CategoryItem>('categories');
   return (
     <section className="az-section az-categories-section" aria-labelledby="categories-heading">
       <div className="az-container">
@@ -40,7 +42,7 @@ export function ConferenceCategories() {
         </div>
 
         <div className="az-categories-grid">
-          {mockCategories.map((cat) => {
+          {categories.map((cat) => {
             const Icon = iconMap[cat.iconName] || Cpu;
             return (
               <Link

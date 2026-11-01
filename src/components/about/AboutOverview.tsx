@@ -45,10 +45,10 @@ export function AboutOverview() {
               Empowering Global Scholars & Scientific Pioneers
             </h2>
             <p className="az-body-lg" style={{ color: 'var(--az-text)', marginTop: 'var(--az-space-4)' }}>
-              AZTech is a premier international conference management platform engineered to connect the world’s leading thinkers, researchers, academics, innovators, and industry leaders.
+              AizenGo is a premier international conference management platform engineered to connect the world’s leading thinkers, researchers, academics, innovators, and industry leaders.
             </p>
             <p className="az-body" style={{ color: 'var(--az-muted)', marginTop: 'var(--az-space-3)' }}>
-              From biomedical engineering and artificial intelligence to sustainable urban infrastructure and quantum computing, AZTech curates high-impact international summits that accelerate knowledge transfer, establish cross-border research alliances, and translate breakthrough scientific ideas into tangible real-world solutions.
+              From biomedical engineering and artificial intelligence to sustainable urban infrastructure and quantum computing, AizenGo curates high-impact international summits that accelerate knowledge transfer, establish cross-border research alliances, and translate breakthrough scientific ideas into tangible real-world solutions.
             </p>
             <div className="az-about-quote-box" style={{ marginTop: 'var(--az-space-6)' }}>
               <p className="az-body" style={{ fontStyle: 'italic', color: 'var(--az-navy)', margin: 0 }}>

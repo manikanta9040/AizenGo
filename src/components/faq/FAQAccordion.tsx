@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, Tag } from 'lucide-react';
-import type { FAQItem } from '../../data/faqs';
+import type { FAQItem } from '../../types/content';
 
 interface FAQAccordionProps {
   items: FAQItem[];

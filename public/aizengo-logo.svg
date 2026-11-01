@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" role="img" aria-labelledby="title desc">
+  <title id="title">AizenGo</title>
+  <desc id="desc">AizenGo academic conference platform logo</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3b88"/>
+      <stop offset="1" stop-color="#2aa9ec"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08b2bb"/>
+      <stop offset="1" stop-color="#1f9f81"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(12 8)">
+    <path fill="url(#blue)" d="M89 9 18 132h29l15-27h51l15 27h30L89 9Zm0 44 13 28H76l13-28Z"/>
+    <path fill="#0b3b88" d="m45 8 45-8 45 8-45 14-45-14Z"/>
+    <path fill="#0b3b88" d="M132 9v18h-5V11l5-2Z"/>
+    <path fill="url(#teal)" d="M18 128c37 16 81 12 119-11 12-7 23-16 31-27-24 13-48 18-72 16-25-2-47-11-68-27-7 14-10 29-10 49Z" opacity=".95"/>
+    <path fill="#138ec7" d="M28 141c33 10 75 8 112-11-34 28-81 35-121 18l9-7Z"/>
+    <path fill="#0b3b88" d="M54 119c12 12 25 18 39 20-11 5-23 5-35 0l-4-20Z"/>
+    <path fill="#0b3b88" d="M65 137c10 7 21 10 32 10-10 5-21 5-31 1l-1-11Z"/>
+  </g>
+  <text x="185" y="94" font-family="Arial, Helvetica, sans-serif" font-size="70" font-weight="800" letter-spacing="-2">
+    <tspan fill="#0b3b88">Aizen</tspan><tspan fill="#08a9ad">Go</tspan>
+  </text>
+  <text x="188" y="125" fill="#0b3b88" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" letter-spacing="2.6">CONFERENCES  •  RESEARCH  •  INNOVATION</text>
+</svg>

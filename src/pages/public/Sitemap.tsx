@@ -6,7 +6,6 @@ import {
   Home,
   Info,
   Calendar,
-  Users,
   Mail,
   HelpCircle,
   Camera,
@@ -28,9 +27,8 @@ const siteMapGroups = [
     icon: Compass,
     links: [
       { label: 'Home Page', path: '/', icon: Home, desc: 'Global conference management platform overview' },
-      { label: 'About AZTech', path: '/about', icon: Info, desc: 'Mission, vision, core values, and global reach' },
+      { label: 'About AizenGo', path: '/about', icon: Info, desc: 'Mission, vision, core values, and global reach' },
       { label: 'Conferences Directory', path: '/conferences', icon: Calendar, desc: 'Explore 500+ multidisciplinary summits' },
-      { label: 'Keynote Speakers', path: '/speakers', icon: Users, desc: 'Meet renowned faculty and industry leaders' },
       { label: 'Contact Us', path: '/contact', icon: Mail, desc: 'Get in touch with conference secretariats' },
     ],
   },
@@ -41,7 +39,6 @@ const siteMapGroups = [
     links: [
       { label: 'Frequently Asked Questions', path: '/faq', icon: HelpCircle, desc: 'Answers on registration, abstracts, and passes' },
       { label: 'Conference Photo Gallery', path: '/gallery', icon: Camera, desc: 'Visual moments from global summits and galas' },
-      { label: 'Research Blogs & Articles', path: '/blogs', icon: BookOpen, desc: 'Perspectives, peer-review insights, and news' },
     ],
   },
   {
@@ -66,12 +63,12 @@ const siteMapGroups = [
 
 export default function Sitemap() {
   useEffect(() => {
-    document.title = 'Website Sitemap | AZTech Navigation Directory';
+    document.title = 'Website Sitemap | AizenGo Navigation Directory';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Explore the complete categorized sitemap for the AZTech Global Conference Management Platform.'
+        'Explore the complete categorized sitemap for the AizenGo Global Conference Management Platform.'
       );
     }
   }, []);
@@ -113,7 +110,7 @@ export default function Sitemap() {
             </div>
 
             <h1 id="sitemap-heading" className="az-sitemap-hero__title">
-              AZTech <span className="az-gradient-text">Website Sitemap</span>
+              AizenGo <span className="az-gradient-text">Website Sitemap</span>
             </h1>
 
             <p className="az-sitemap-hero__description az-body-lg">
@@ -188,8 +185,8 @@ export default function Sitemap() {
                   <span>Explore Conferences</span>
                   <ArrowRight size={18} aria-hidden="true" />
                 </Link>
-                <Link to="/speakers" className="az-button az-button--outline az-button--lg az-cta-banner__btn-alt">
-                  <span>Meet Our Keynote Speakers</span>
+                <Link to="/contact" className="az-button az-button--outline az-button--lg az-cta-banner__btn-alt">
+                  <span>Contact AizenGo</span>
                 </Link>
               </div>
             </div>

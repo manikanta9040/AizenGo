@@ -5,12 +5,12 @@ import { Badge } from '../../components/common/Badge';
 
 export default function TermsOfUse() {
   useEffect(() => {
-    document.title = 'Terms & Conditions | AZTech Global Platform';
+    document.title = 'Terms & Conditions | AizenGo Global Platform';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Read the AZTech Terms and Conditions covering conference registrations, abstract submissions, attendee codes of conduct, and intellectual property.'
+        'Read the AizenGo Terms and Conditions covering conference registrations, abstract submissions, attendee codes of conduct, and intellectual property.'
       );
     }
   }, []);
@@ -63,7 +63,7 @@ export default function TermsOfUse() {
           </Badge>
 
           <h1 id="terms-heading" className="az-legal-hero__title" style={{ marginTop: 'var(--az-space-3)' }}>
-            AZTech Terms & Conditions
+            AizenGo Terms & Conditions
           </h1>
 
           <div className="az-legal-meta" style={{ display: 'flex', gap: 'var(--az-space-4)', flexWrap: 'wrap', marginTop: 'var(--az-space-3)', color: 'var(--az-muted)', fontSize: '0.875rem' }}>
@@ -81,7 +81,7 @@ export default function TermsOfUse() {
           <div className="az-legal-alert" style={{ display: 'flex', gap: 'var(--az-space-3)', padding: 'var(--az-space-4)', borderRadius: 'var(--az-radius-lg)', background: '#e0effa', border: '1px solid rgb(23 105 170 / 25%)', color: 'var(--az-navy)', marginBottom: 'var(--az-space-8)' }}>
             <FileCheck size={22} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '2px' }} />
             <div className="az-body-sm">
-              <strong>Development & Staging Notice:</strong> These Terms and Conditions govern participation in AZTech summits and portals. They represent development placeholders intended for statutory review and customization by institutional legal advisors prior to live commercial operations.
+              <strong>Development & Staging Notice:</strong> These Terms and Conditions govern participation in AizenGo summits and portals. They represent development placeholders intended for statutory review and customization by institutional legal advisors prior to live commercial operations.
             </div>
           </div>
 
@@ -104,28 +104,28 @@ export default function TermsOfUse() {
             <section id="sec-1" className="az-legal-section">
               <h2>1. Introduction & Acceptance</h2>
               <p>
-                By accessing, browsing, registering for, or presenting at any AZTech international conference, virtual symposium, or digital portal, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our services or attend our events.
+                By accessing, browsing, registering for, or presenting at any AizenGo international conference, virtual symposium, or digital portal, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our services or attend our events.
               </p>
             </section>
 
             <section id="sec-2" className="az-legal-section">
               <h2>2. User Accounts & Eligibility</h2>
               <p>
-                To submit abstracts or complete registrations, you may be required to create an AZTech Author/Delegate Account. You are responsible for safeguarding your login credentials and for all activities that occur under your authenticated profile. Information submitted must be accurate, current, and complete.
+                To submit abstracts or complete registrations, you may be required to create an AizenGo Author/Delegate Account. You are responsible for safeguarding your login credentials and for all activities that occur under your authenticated profile. Information submitted must be accurate, current, and complete.
               </p>
             </section>
 
             <section id="sec-3" className="az-legal-section">
               <h2>3. Conference Registration & Passes</h2>
               <p>
-                Admission to AZTech summits requires a verified registration pass (e.g., Academic, Student, Industry, or Virtual Delegate). Passes are valid solely for the named delegate and specified conference edition. AZTech reserves the right to deny admission in the event of fraudulent credentials or violation of the event Code of Conduct.
+                Admission to AizenGo summits requires a verified registration pass (e.g., Academic, Student, Industry, or Virtual Delegate). Passes are valid solely for the named delegate and specified conference edition. AizenGo reserves the right to deny admission in the event of fraudulent credentials or violation of the event Code of Conduct.
               </p>
             </section>
 
             <section id="sec-4" className="az-legal-section">
               <h2>4. Abstract Submission & Scholarly Review</h2>
               <p>
-                All submitted abstracts, research papers, and technical manuscripts must represent original, unplagiarized scholarly work. By submitting, authors confirm they hold the legal rights to present the material and grant AZTech a non-exclusive license to publish accepted abstracts in official conference proceedings and indexed digital libraries.
+                All submitted abstracts, research papers, and technical manuscripts must represent original, unplagiarized scholarly work. By submitting, authors confirm they hold the legal rights to present the material and grant AizenGo a non-exclusive license to publish accepted abstracts in official conference proceedings and indexed digital libraries.
               </p>
             </section>
 
@@ -146,28 +146,28 @@ export default function TermsOfUse() {
             <section id="sec-7" className="az-legal-section">
               <h2>7. Intellectual Property & Copyright</h2>
               <p>
-                Presenters retain full intellectual property ownership of their underlying research discoveries and slide materials. The AZTech brand name, summit logos, digital platform designs, and custom software interfaces remain the exclusive proprietary property of AZTech.
+                Presenters retain full intellectual property ownership of their underlying research discoveries and slide materials. The AizenGo brand name, summit logos, digital platform designs, and custom software interfaces remain the exclusive proprietary property of AizenGo.
               </p>
             </section>
 
             <section id="sec-8" className="az-legal-section">
               <h2>8. User Conduct & Code of Ethics</h2>
               <p>
-                AZTech fosters inclusive, collegial, and harassment-free environments. All attendees, presenters, and sponsors must conduct themselves with professional respect, academic integrity, and decorum. Discrimination, harassment, commercial solicitation during academic tracks, or deliberate disruption of presentations will result in immediate expulsion without refund.
+                AizenGo fosters inclusive, collegial, and harassment-free environments. All attendees, presenters, and sponsors must conduct themselves with professional respect, academic integrity, and decorum. Discrimination, harassment, commercial solicitation during academic tracks, or deliberate disruption of presentations will result in immediate expulsion without refund.
               </p>
             </section>
 
             <section id="sec-9" className="az-legal-section">
               <h2>9. Limitation of Liability & Disclaimers</h2>
               <p>
-                AZTech summits and platform materials are provided &ldquo;as is&rdquo; without warranties of any kind. While we make every effort to deliver world-class events, AZTech shall not be liable for incidental, indirect, or consequential damages resulting from travel disruptions, force majeure occurrences, or third-party venue scheduling changes.
+                AizenGo summits and platform materials are provided &ldquo;as is&rdquo; without warranties of any kind. While we make every effort to deliver world-class events, AizenGo shall not be liable for incidental, indirect, or consequential damages resulting from travel disruptions, force majeure occurrences, or third-party venue scheduling changes.
               </p>
             </section>
 
             <section id="sec-10" className="az-legal-section">
               <h2>10. Changes to Terms</h2>
               <p>
-                AZTech reserves the right to modify these Terms and Conditions at any time. Continued use of our portal or attendance at our conferences following published amendments constitutes binding acceptance of the revised terms.
+                AizenGo reserves the right to modify these Terms and Conditions at any time. Continued use of our portal or attendance at our conferences following published amendments constitutes binding acceptance of the revised terms.
               </p>
             </section>
 
@@ -177,8 +177,8 @@ export default function TermsOfUse() {
                 For official legal inquiries, partnership contracts, or terms clarifications, please address our legal department:
               </p>
               <div className="az-legal-contact-box" style={{ padding: 'var(--az-space-4)', background: 'var(--az-surface)', borderRadius: 'var(--az-radius-md)', border: '1px solid var(--az-border)', marginTop: 'var(--az-space-3)' }}>
-                <strong>AZTech Office of the General Counsel</strong><br />
-                Email: <a href="mailto:legal@aztech.example" style={{ color: 'var(--az-primary)' }}>legal@aztech.example</a><br />
+                <strong>AizenGo Office of the General Counsel</strong><br />
+                Email: <a href="mailto:legal@aizen.com" style={{ color: 'var(--az-primary)' }}>legal@aizen.com</a><br />
                 Address: HITEC City Innovation Blvd, Madhapur, Hyderabad, Telangana 500081, India
               </div>
             </section>

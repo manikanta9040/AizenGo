@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
-import { mockConferences } from '../../data/conferences';
+import type { Conference } from '../../types/conference';
+import { useBackendData } from '../../hooks/useBackendData';
 import {
   ConferenceHero,
   ConferenceInfo,
@@ -11,7 +12,6 @@ import {
   ImportantDates,
   RegistrationCard,
   RegistrationTypes,
-  ConferenceSpeakers,
   ConferenceCommittee,
   ConferenceProgram,
   ConferenceVenue,
@@ -25,23 +25,24 @@ import {
 } from '../../components/conference/details';
 
 export function ConferenceDetails() {
+  const conferences = useBackendData<Conference>('conferences');
   const { slug } = useParams<{ slug: string }>();
 
   // 1. Dynamic slug resolution (matching slug or id)
-  const conference = mockConferences.find(
+  const conference = conferences.find(
     (c) => c.slug.toLowerCase() === slug?.toLowerCase() || c.id.toLowerCase() === slug?.toLowerCase()
   );
 
   // 2. Dynamic page title for SEO
   useEffect(() => {
     if (conference) {
-      document.title = `${conference.title} | AZTech`;
+      document.title = `${conference.title} | AizenGo`;
     } else {
-      document.title = 'Conference Not Found | AZTech';
+      document.title = 'Conference Not Found | AizenGo';
     }
 
     return () => {
-      document.title = 'AZTech — Global Conference Management Platform';
+      document.title = 'AizenGo — Global Conference Management Platform';
     };
   }, [conference]);
 
@@ -100,7 +101,6 @@ export function ConferenceDetails() {
               <ConferenceTopics conference={conference} />
               <ImportantDates conference={conference} />
               <RegistrationTypes conference={conference} />
-              <ConferenceSpeakers conference={conference} />
               <ConferenceProgram conference={conference} />
               <ConferenceCommittee conference={conference} />
               <ConferenceVenue conference={conference} />

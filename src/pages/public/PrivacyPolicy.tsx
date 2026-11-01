@@ -5,12 +5,12 @@ import { Badge } from '../../components/common/Badge';
 
 export default function PrivacyPolicy() {
   useEffect(() => {
-    document.title = 'Privacy Policy | AZTech Global Platform';
+    document.title = 'Privacy Policy | AizenGo Global Platform';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Read the AZTech Privacy Policy detailing how we collect, handle, safeguard, and process personal and academic research information.'
+        'Read the AizenGo Privacy Policy detailing how we collect, handle, safeguard, and process personal and academic research information.'
       );
     }
   }, []);
@@ -63,7 +63,7 @@ export default function PrivacyPolicy() {
           </Badge>
 
           <h1 id="privacy-heading" className="az-legal-hero__title" style={{ marginTop: 'var(--az-space-3)' }}>
-            AZTech Privacy Policy
+            AizenGo Privacy Policy
           </h1>
 
           <div className="az-legal-meta" style={{ display: 'flex', gap: 'var(--az-space-4)', flexWrap: 'wrap', marginTop: 'var(--az-space-3)', color: 'var(--az-muted)', fontSize: '0.875rem' }}>
@@ -81,7 +81,7 @@ export default function PrivacyPolicy() {
           <div className="az-legal-alert" style={{ display: 'flex', gap: 'var(--az-space-3)', padding: 'var(--az-space-4)', borderRadius: 'var(--az-radius-lg)', background: '#e0effa', border: '1px solid rgb(23 105 170 / 25%)', color: 'var(--az-navy)', marginBottom: 'var(--az-space-8)' }}>
             <FileText size={22} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '2px' }} />
             <div className="az-body-sm">
-              <strong>Development & Staging Notice:</strong> This privacy document is structured for the AZTech Global Conference Management Platform. Specific legal clauses and regional jurisdictional representations are subject to formal legal review by institutional counsel prior to commercial production deployment.
+              <strong>Development & Staging Notice:</strong> This privacy document is structured for the AizenGo Global Conference Management Platform. Specific legal clauses and regional jurisdictional representations are subject to formal legal review by institutional counsel prior to commercial production deployment.
             </div>
           </div>
 
@@ -104,7 +104,7 @@ export default function PrivacyPolicy() {
             <section id="sec-1" className="az-legal-section">
               <h2>1. Introduction</h2>
               <p>
-                AZTech (&ldquo;AZTech,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting the privacy, confidentiality, and data integrity of all registered delegates, authors, keynote speakers, session chairs, and website visitors. This Privacy Policy governs our data collection, processing, storage, and sharing practices across all AZTech conference management portals, abstract submission systems, and attendee engagement platforms.
+                AizenGo (&ldquo;AizenGo,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting the privacy, confidentiality, and data integrity of all registered delegates, authors, keynote speakers, session chairs, and website visitors. This Privacy Policy governs our data collection, processing, storage, and sharing practices across all AizenGo conference management portals, abstract submission systems, and attendee engagement platforms.
               </p>
             </section>
 
@@ -124,7 +124,7 @@ export default function PrivacyPolicy() {
             <section id="sec-3" className="az-legal-section">
               <h2>3. How We Use Information</h2>
               <p>
-                AZTech processes your information solely for legitimate academic and event management purposes:
+                AizenGo processes your information solely for legitimate academic and event management purposes:
               </p>
               <ul>
                 <li>Facilitating double-blind peer review and editorial evaluation of submitted abstracts and manuscripts.</li>
@@ -144,7 +144,7 @@ export default function PrivacyPolicy() {
             <section id="sec-5" className="az-legal-section">
               <h2>5. Data Security Measures</h2>
               <p>
-                AZTech enforces robust technical, organizational, and physical safeguards. All data in transit is encrypted using TLS 1.3/256-bit SSL protocols, and stored data is encrypted at rest in high-security Tier-IV cloud datacenters with multi-factor administrative authentication and automated continuous vulnerability scanning.
+                AizenGo enforces robust technical, organizational, and physical safeguards. All data in transit is encrypted using TLS 1.3/256-bit SSL protocols, and stored data is encrypted at rest in high-security Tier-IV cloud datacenters with multi-factor administrative authentication and automated continuous vulnerability scanning.
               </p>
             </section>
 
@@ -163,7 +163,7 @@ export default function PrivacyPolicy() {
             <section id="sec-7" className="az-legal-section">
               <h2>7. Data Retention & Archival</h2>
               <p>
-                Personal account information is retained as long as your profile remains active. Academic presentation records, published abstracts, and certificate verification hashes are preserved permanently in the AZTech scholarly archive to maintain scientific citation lineage and credential verification authenticity.
+                Personal account information is retained as long as your profile remains active. Academic presentation records, published abstracts, and certificate verification hashes are preserved permanently in the AizenGo scholarly archive to maintain scientific citation lineage and credential verification authenticity.
               </p>
             </section>
 
@@ -182,7 +182,7 @@ export default function PrivacyPolicy() {
             <section id="sec-9" className="az-legal-section">
               <h2>9. Children&apos;s Privacy</h2>
               <p>
-                AZTech conference portals and academic summits are designed for researchers, professionals, and adult university scholars. We do not knowingly collect personal information from individuals under the age of 16 without explicit parental or institutional guardian consent.
+                AizenGo conference portals and academic summits are designed for researchers, professionals, and adult university scholars. We do not knowingly collect personal information from individuals under the age of 16 without explicit parental or institutional guardian consent.
               </p>
             </section>
 
@@ -199,8 +199,8 @@ export default function PrivacyPolicy() {
                 For questions regarding this policy, data subject requests, or security concerns, please contact our Data Protection Officer:
               </p>
               <div className="az-legal-contact-box" style={{ padding: 'var(--az-space-4)', background: 'var(--az-surface)', borderRadius: 'var(--az-radius-md)', border: '1px solid var(--az-border)', marginTop: 'var(--az-space-3)' }}>
-                <strong>AZTech Global Data Protection Secretariat</strong><br />
-                Email: <a href="mailto:privacy@aztech.example" style={{ color: 'var(--az-primary)' }}>privacy@aztech.example</a><br />
+                <strong>AizenGo Global Data Protection Secretariat</strong><br />
+                Email: <a href="mailto:privacy@aizen.com" style={{ color: 'var(--az-primary)' }}>privacy@aizen.com</a><br />
                 Address: HITEC City Innovation Blvd, Madhapur, Hyderabad, Telangana 500081, India
               </div>
             </section>

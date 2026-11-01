@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import type { Conference } from '../../../types/conference';
-import { mockConferences } from '../../../data/conferences';
+import { useBackendData } from '../../../hooks/useBackendData';
 import { ConferenceCard } from '../ConferenceCard';
 
 interface RelatedConferencesProps {
@@ -9,13 +9,14 @@ interface RelatedConferencesProps {
 }
 
 export function RelatedConferences({ currentConference }: RelatedConferencesProps) {
+  const conferences = useBackendData<Conference>('conferences');
   // 1. Same category first, excluding current
-  const sameCategory = mockConferences.filter(
+  const sameCategory = conferences.filter(
     (c) => c.id !== currentConference.id && c.category === currentConference.category
   );
 
   // 2. If fewer than 3, fill with other conferences
-  const otherCategory = mockConferences.filter(
+  const otherCategory = conferences.filter(
     (c) => c.id !== currentConference.id && c.category !== currentConference.category
   );
 
