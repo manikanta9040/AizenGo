@@ -8,8 +8,9 @@ import { createSession, getSessionUser, hashToken } from './lib/session'
 const app = express()
 const port = Number(process.env.PORT || 4000)
 
-app.use(cors({ origin: 'http://localhost:5173' }))
-app.use(express.json())
+app.use(cors({
+  origin: process.env.FRONTEND_ORIGIN ?? 'http://localhost:5173',
+}))
 
 function publicUser(user: { id: string; name: string; email: string; role: string; avatar: string | null }) {
   return { id: user.id, name: user.name, email: user.email, role: user.role, avatar: user.avatar ?? undefined }
@@ -160,6 +161,6 @@ app.delete('/api/data/:resource/:recordKey', async (request, response) => {
 
 app.use((_request, response) => response.status(404).json({ message: 'Route not found.' }))
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`AizenGo API running at http://localhost:${port}`)
 })
