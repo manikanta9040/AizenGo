@@ -1,8 +1,8 @@
 # AizenGo Project Documentation
 
-AizenGo is a conference-management platform with a React/Vite frontend, an Express/TypeScript backend, and a MySQL database accessed through Prisma.
-
-The backend is the source of truth for application content and user records. The frontend requests data from the backend and keeps the response in memory while the application is open.
+AizenGo is a conference-management web application. Its frontend is a React and
+TypeScript single-page application built with Vite. Its HTTP API is implemented
+in PHP and stores users, sessions, and application records in MySQL or MariaDB.
 
 ## 1. Technology stack
 
@@ -11,151 +11,128 @@ The backend is the source of truth for application content and user records. The
 - React 19 and TypeScript
 - Vite
 - React Router
-- Redux Toolkit
-- TanStack React Query
+- Redux Toolkit and TanStack React Query
 - Axios
-- Recharts
-- Framer Motion
 - React Hook Form and Zod
+- Recharts and Framer Motion
 
-### Backend
+### API and database
 
-- Node.js and TypeScript
-- Express
-- Prisma Client
-- MySQL/MariaDB adapter
-- bcrypt-based password hashing
-- Token-based sessions
+- PHP 8.2 or newer
+- MySQL or MariaDB, with the PHP `pdo_mysql` extension
+- No Composer dependencies
+- JSON API under `/api`
 
-## 2. Repository structure
+The current API implementation is in `server/php/public/index.php`. The older
+Node/Express and Prisma backend is not part of the current application runtime.
+
+## 2. Repository layout
 
 ```text
+public/                  Static files copied by Vite
 src/
-  api/                 Axios API clients
-  components/          Reusable UI and page components
-  constants/           Routes, roles, and application constants
-  context/             Authentication, theme, and backend-data providers
-  hooks/               Reusable React hooks
-  layouts/             Public, user, and admin layouts
-  pages/               Public, authentication, user, and admin pages
-  routes/              Application route definitions
-  services/            Backend-backed domain services
-  store/               Redux slices and store configuration
-  types/               TypeScript domain types
-  data/backendHydration.ts  Backend snapshot loader
-
+  api/                   Axios client and API request modules
+  components/            Shared UI and feature components
+  constants/             Application constants and route paths
+  context/                Auth, theme, and backend-data providers
+  data/                   Backend snapshot loading
+  hooks/                  Reusable React hooks
+  layouts/                Public, attendee, and admin layouts
+  pages/                  Public, auth, attendee, and admin screens
+  routes/                 React Router configuration
+  services/               Domain-level API services
+  store/                  Redux store and slices
+  types/                  TypeScript domain types
+  utils/                  Formatting and validation helpers
 server/
-  src/index.ts         Express API and route handlers
-  src/lib/             Prisma, password, and session helpers
-  src/seed.ts          Database seed runner
-  src/seed-data/       Server-only initial seed records
-  prisma/schema.prisma Database schema
-  .env                 Local database configuration (not committed)
+  .env.example             PHP API configuration template
+  php/
+    public/
+      index.php            PHP API implementation
+      router.php           Local PHP development-server router
+    schema.sql             MySQL/MariaDB table definitions
+    seed-demo.php          Development-only demo account setup
+    README.md              PHP API setup notes
 ```
 
-The old frontend fixture directory no longer contains content records. Seed records live under `server/src/seed-data` so they are not bundled into the frontend.
+## 3. Requirements
 
-## 3. Prerequisites
+For frontend development and production builds:
 
-Install the following before running the project:
+- Node.js and npm
 
-- Node.js with npm
-- MySQL or MariaDB running on port `3306`
-- A database named `aizengo`
+For the API:
 
-Create a database user if needed:
+- PHP 8.2 or newer
+- PHP `pdo_mysql` extension
+- MySQL 8+ or MariaDB 10.5+
 
-```sql
-CREATE DATABASE aizengo;
-CREATE USER 'aizengo_user'@'localhost' IDENTIFIED BY 'choose-a-password';
-GRANT ALL PRIVILEGES ON aizengo.* TO 'aizengo_user'@'localhost';
-FLUSH PRIVILEGES;
-```
+The API uses a database named `aizengo` by default in the sample configuration.
+The database and database user must exist before starting the API.
 
 ## 4. Environment configuration
 
-Create `server/.env` from `server/.env.example`:
+Copy `server/.env.example` to `server/.env`, then set the database credentials
+for your environment:
 
 ```env
-DATABASE_URL="mysql://DATABASE_USER:DATABASE_PASSWORD@localhost:3306/aizengo"
-DATABASE_HOST="localhost"
+DATABASE_HOST=localhost
 DATABASE_PORT=3306
-DATABASE_USER="DATABASE_USER" //aizengo_user
-DATABASE_PASSWORD="DATABASE_PASSWORD" //AizenGo@123
-DATABASE_NAME="aizengo"
-PORT=4000
+DATABASE_USER=your_database_user
+DATABASE_PASSWORD=your_database_password
+DATABASE_NAME=aizengo
+FRONTEND_ORIGIN=http://localhost:5173
 ```
 
-The server runtime uses `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, and `DATABASE_NAME`. Prisma CLI commands use `DATABASE_URL`.
+`FRONTEND_ORIGIN` must match the browser origin serving the frontend. The PHP
+API reads these values from environment variables or `server/.env`. Keep
+`server/.env` private and outside any publicly served directory.
 
-If the database password contains special URL characters such as `@`, encode them in `DATABASE_URL`. For example, `@` becomes `%40`. The separate `DATABASE_PASSWORD` value remains the actual password.
-
-The frontend defaults to:
-
-```text
-http://localhost:4000/api
-```
-
-To override it, create a root `.env` file:
+The frontend API base URL defaults to `http://localhost:4000/api`. To set it
+explicitly for local or production builds, define `VITE_API_BASE_URL` in a
+root-level Vite environment file, for example:
 
 ```env
 VITE_API_BASE_URL=http://localhost:4000/api
 ```
 
-## 5. Installation and database setup
+Vite embeds this value at build time. Rebuild the frontend after changing it.
 
-Install frontend dependencies:
+## 5. Database setup
 
-```bash
-cd /Users/manikanta/AizenGo
-npm install
-```
+Create a database and user in MySQL/MariaDB, then grant the user access to the
+database. For a new, empty database, import `server/php/schema.sql` using
+phpMyAdmin or the MySQL command line.
 
-Install backend dependencies:
+The schema creates three tables:
 
-```bash
-cd /Users/manikanta/AizenGo/server
-npm install
-```
+| Table | Purpose |
+| --- | --- |
+| `User` | Account profile, role, and password hash |
+| `Session` | Hashed bearer-token sessions and expiry times |
+| `DataRecord` | JSON application records, uniquely keyed by resource and record key |
 
-Generate the Prisma client and apply the schema to MySQL:
+Do not import `schema.sql` over a database that already contains these tables.
+In particular, it is not a migration script for a database managed by the
+previous Prisma backend.
 
-```bash
-npx prisma generate
-npx prisma db push
-```
+The schema creates empty tables. `seed-demo.php` adds only the three
+development accounts; it does not populate conferences or other application
+content. Existing content must be retained from an existing database or added
+through the application.
 
-Populate development users and content:
+## 6. Run locally
 
-```bash
-npm run seed
-```
+### Start the PHP API
 
-The seed command reads server-only records from `server/src/seed-data` and writes them to the `User` and `DataRecord` tables. It does not update the TypeScript files when users edit data through the website.
-
-## 6. Run frontend and backend
-
-Use two terminal windows.
-
-### Terminal 1: backend
+From the project root:
 
 ```bash
-cd /Users/manikanta/AizenGo/server
-npm run dev
+php -S 0.0.0.0:4000 -t server/php/public server/php/public/router.php
 ```
 
-The API runs at `http://localhost:4000`.
-
-### Terminal 2: frontend
-
-```bash
-cd /Users/manikanta/AizenGo
-npm run dev
-```
-
-The frontend normally runs at `http://localhost:5173`.
-
-Verify the backend:
+The API should be available at `http://localhost:4000`. Verify the API and
+database connection at:
 
 ```text
 http://localhost:4000/api/health
@@ -167,233 +144,108 @@ Expected response:
 {"status":"ok","database":"connected"}
 ```
 
-## 7. Application startup and data flow
+### Start the frontend
+
+In another terminal:
+
+```bash
+npm install
+npm run dev
+```
+
+Vite prints the local frontend URL, normally `http://localhost:5173`.
+
+Useful frontend commands:
+
+```bash
+npm run lint
+npm run build
+npm run preview
+```
+
+The frontend loads the backend snapshot during startup. If the API is
+unavailable, the application displays a connection error instead of loading
+content from frontend fixtures.
+
+## 7. Data flow
 
 ```text
 Browser
-  -> AppProviders
+  -> React Router and AppProviders
   -> GET /api/data/snapshot
-  -> Express API
-  -> Prisma
+  -> PHP API
   -> MySQL DataRecord table
-  -> BackendDataProvider
-  -> Public/user/admin pages
+  -> BackendDataContext
+  -> Public, attendee, and admin pages
 ```
 
-The main files involved are:
+Authentication requests go through `src/api/authApi.ts` to the PHP
+`/api/auth/*` endpoints. The API hashes passwords using PHP's
+`password_hash()` and stores only a hash of each bearer token in `Session`.
+The browser stores the returned token and public user under
+`aizengo.api.session` in local storage.
 
-- [src/context/AppProviders.tsx](src/context/AppProviders.tsx)
-- [src/data/backendHydration.ts](src/data/backendHydration.ts)
-- [src/context/BackendDataContext.tsx](src/context/BackendDataContext.tsx)
-- [src/hooks/useBackendData.ts](src/hooks/useBackendData.ts)
-- [src/api/dataApi.ts](src/api/dataApi.ts)
-- [server/src/index.ts](server/src/index.ts)
+## 8. HTTP API
 
-If the backend cannot be reached, the frontend displays a connection error instead of using frontend mock content.
+The API is implemented in `server/php/public/index.php`.
 
-## 8. Database schema
+### Health and authentication
 
-The schema is defined in `server/prisma/schema.prisma`.
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/health` | Checks the database connection |
+| `POST` | `/api/auth/register` | Creates a regular user and session |
+| `POST` | `/api/auth/login` | Verifies credentials and creates a session |
+| `GET` | `/api/auth/me` | Returns the user for a valid bearer token |
+| `POST` | `/api/auth/logout` | Revokes the supplied bearer token |
+| `POST` | `/api/auth/forgot-password` | Returns `501` until verified reset delivery is configured |
+| `POST` | `/api/auth/reset-password` | Returns `501` until verified reset tokens are implemented |
+| `GET` | `/api/users` | Lists public user fields to administrators |
 
-### `User`
+Registration requires a name, valid email address, and password of at least
+eight characters. Protected identity lookup uses the `Authorization: Bearer
+<token>` header.
 
-Stores registered accounts:
+### Application data
 
-- `id`
-- `name`
-- `email`
-- `passwordHash`
-- `role`
-- `avatar`
-- `createdAt`
-- `updatedAt`
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/data/snapshot` | Returns all records grouped by resource |
+| `GET` | `/api/data/:resource` | Lists records in one resource |
+| `POST` | `/api/data/:resource` | Creates or upserts a record |
+| `PUT` | `/api/data/:resource/:recordKey` | Replaces a record payload |
+| `DELETE` | `/api/data/:resource/:recordKey` | Deletes a record |
 
-Plain-text passwords are never stored.
+The frontend's `src/api/dataApi.ts` wraps these endpoints. It sends the saved
+bearer token when one is present. Data records are JSON payloads stored in
+`DataRecord`; a record key is derived from the payload's `id`, `slug`, `month`,
+or `name` when available.
 
-### `Session`
+Public requests can read only the `conferences`, `categories`, `faqs`,
+`gallery`, `statistics`, and `testimonials` resources. An authenticated user
+can read their own records in attendee resources; administrators can read all
+resources. Data writes require an authenticated user: administrators can
+manage all records, while attendees can submit their own abstracts, update
+their own profile, and manage the `read` flag or deletion of their own
+notifications.
 
-Stores hashed login session tokens and their expiration dates.
+## 9. Frontend routes
 
-### `DataRecord`
+The active route tree is in `src/routes/AppRoutes.tsx`.
 
-Stores flexible JSON application data:
-
-- `resource`: collection name such as `conferences` or `faqs`
-- `recordKey`: record identifier
-- `payload`: JSON record
-- `updatedAt`: last update time
-
-Current seeded resources include:
+### Public and authentication routes
 
 ```text
-abstracts
-adminStats
-blogs
-categories
-categoryStats
-certificates
-conferences
-faqs
-gallery
-monthlyRevenue
-notifications
-payments
-registrationGrowth
-registrations
-reports
-speakers
-statistics
-testimonials
-userProfile
-users
-settings
-abstractReviewDistribution
-```
-
-## 9. Authentication
-
-### Register
-
-```http
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "name": "Example User",
-  "email": "example@example.com",
-  "password": "at-least-8-characters"
-}
-```
-
-The backend validates the request, hashes the password, creates a `User` row, creates a session, and returns a token and public user object.
-
-### Login
-
-```http
-POST /api/auth/login
-```
-
-The frontend stores the returned session token in browser storage under `aizengo.api.session`. This is session state, not application content.
-
-### Other authentication endpoints
-
-```text
-GET  /api/auth/me
-POST /api/auth/logout
-POST /api/auth/forgot-password
-POST /api/auth/reset-password
-```
-
-## 10. Data API
-
-The generic data API is implemented in `server/src/index.ts` and wrapped by `src/api/dataApi.ts`.
-
-```text
-GET    /api/data/snapshot
-GET    /api/data/:resource
-POST   /api/data/:resource
-PUT    /api/data/:resource/:recordKey
-DELETE /api/data/:resource/:recordKey
-```
-
-Examples:
-
-```http
-GET http://localhost:4000/api/data/conferences
-GET http://localhost:4000/api/data/faqs
-GET http://localhost:4000/api/data/snapshot
-```
-
-Frontend domain services use these endpoints through [src/services/backendDataService.ts](src/services/backendDataService.ts). Examples include:
-
-- `adminConferenceService`
-- `adminAbstractService`
-- `adminBlogService`
-- `adminFaqService`
-- `adminGalleryService`
-- `adminPaymentService`
-- `adminRegistrationService`
-- `adminReportService`
-- `adminSettingsService`
-- `adminSpeakerService`
-- `adminUserService`
-
-## 11. MySQL queries for inspecting data
-
-Registered users:
-
-```sql
-USE aizengo;
-
-SELECT id, name, email, role, createdAt, updatedAt
-FROM `User`
-ORDER BY createdAt DESC;
-```
-
-Application records:
-
-```sql
-SELECT resource, recordKey, JSON_PRETTY(payload) AS data, updatedAt
-FROM `DataRecord`
-ORDER BY updatedAt DESC;
-```
-
-Conferences only:
-
-```sql
-SELECT recordKey, JSON_PRETTY(payload) AS conference
-FROM `DataRecord`
-WHERE resource = 'conferences'
-ORDER BY recordKey;
-```
-
-Profiles only:
-
-```sql
-SELECT recordKey, JSON_PRETTY(payload) AS profile
-FROM `DataRecord`
-WHERE resource = 'userProfile';
-```
-
-Password hashes can be inspected for troubleshooting, but the original passwords cannot be recovered:
-
-```sql
-SELECT name, email, passwordHash
-FROM `User`;
-```
-
-## 12. Development accounts
-
-These accounts are created by the development seed script:
-
-```text
-Attendee    user@aizen.test       aizen123
-Admin       admin@aizen.test      admin123
-Super admin superadmin@aizen.test super123
-```
-
-Do not use these credentials in production.
-
-## 13. Frontend routes
-
-### Public routes
-
-```text
-/                    Home
-/about               About
-/conferences         Conference directory
-/conferences/:slug   Conference details
-/contact             Contact
-/faq                 Frequently asked questions
-/gallery             Photo gallery
-/privacy-policy      Privacy policy
-/terms               Terms of use
-/sitemap             Sitemap
-```
-
-### Authentication routes
-
-```text
+/
+/about
+/conferences
+/conferences/:slug
+/contact
+/faq
+/gallery
+/privacy-policy
+/terms
+/sitemap
 /login
 /register
 /forgot-password
@@ -401,7 +253,9 @@ Do not use these credentials in production.
 /admin/login
 ```
 
-### User routes
+### Attendee routes
+
+All routes below `/dashboard` require an authenticated user:
 
 ```text
 /dashboard
@@ -419,6 +273,8 @@ Do not use these credentials in production.
 ```
 
 ### Admin routes
+
+Admin routes require an `ADMIN` or `SUPER_ADMIN` role:
 
 ```text
 /admin/dashboard
@@ -442,609 +298,148 @@ Do not use these credentials in production.
 /admin/settings
 ```
 
-## 14. Route protection
+## 10. Development accounts
 
-- Public pages are available without authentication.
-- `/dashboard/*` is protected by `ProtectedRoute`.
-- `/admin/*` is protected by `AdminRoute`.
-- Admin access is granted to `ADMIN` and `SUPER_ADMIN` roles.
-
-Route definitions are in [src/routes/AppRoutes.tsx](src/routes/AppRoutes.tsx).
-
-## 15. Useful commands
-
-Frontend:
+To create local demo accounts, run the following from the API directory after
+configuring the database and importing the schema:
 
 ```bash
-npm run dev
-npm run build
-npm run lint
-npm run preview
+cd server/php
+php seed-demo.php
 ```
 
-Backend:
-
-```bash
-cd server
-npm run dev
-npm run seed
-./node_modules/.bin/tsc --noEmit -p tsconfig.json
-```
-
-Database/schema:
-
-```bash
-cd server
-npx prisma generate
-npx prisma db push
-```
-
-## 16. Troubleshooting
-
-### Frontend says it cannot connect to the backend
-
-Check that the backend is running on port `4000` and that this URL works:
-
-```text
-http://localhost:4000/api/health
-```
-
-Check `VITE_API_BASE_URL` if the backend uses another host or port.
-
-### Database connection fails
-
-Check:
-
-1. MySQL is running.
-2. Database `aizengo` exists.
-3. The username and password in `server/.env` are correct.
-4. The database user has privileges on `aizengo`.
-5. Port `3306` is available.
-
-### The database has no content
-
-Run:
-
-```bash
-cd server
-npx prisma db push
-npm run seed
-```
-
-### A new website user is not visible in `server/src/seed-data/users.ts`
-
-That is expected. Seed files are source fixtures only. Website registrations are stored in the MySQL `User` table.
-
-### Password cannot be displayed
-
-Passwords are hashed before storage. Use the password-reset flow to set a new password instead of attempting to retrieve the original password.
-
-### Admin content changes are not visible on an already-open public page
-
-The frontend loads one backend snapshot during startup. Reload the page to request a fresh snapshot after changing data from the admin area.
-
-## 17. Production considerations
-
-Before production deployment:
-
-- Replace development credentials.
-- Store secrets in a secure environment manager.
-- Restrict CORS to the production frontend origin.
-- Add authentication and authorization checks to `/api/data/*` routes.
-- Validate and sanitize all incoming JSON payloads.
-- Add rate limiting to authentication routes.
-- Use HTTPS.
-- Add database migrations and backups.
-- Do not expose password hashes through administrative APIs.
-- Add automated API and end-to-end tests.
-
-## 18. Folder and file reference
-
-This section explains the role of the project folders and source files.
-
-### Root files
-
-| File | Purpose |
-| --- | --- |
-| `index.html` | Vite HTML entry point. Contains the root element where React mounts. |
-| `package.json` | Frontend scripts and dependencies. |
-| `package-lock.json` | Locked frontend dependency versions. |
-| `vite.config.ts` | Vite configuration and React plugin setup. |
-| `tsconfig.json` | Base TypeScript project configuration. |
-| `tsconfig.app.json` | TypeScript settings for frontend application code. |
-| `tsconfig.node.json` | TypeScript settings for Node/Vite configuration files. |
-| `eslint.config.js` | ESLint rules for TypeScript and React. |
-| `.env.example` | Template for frontend environment variables. |
-| `.gitignore` | Files excluded from Git, including dependencies, builds, and secrets. |
-| `README.md` | Original project overview and Vite notes. |
-| `END_TO_END.md` | Manual setup and application smoke-test guide. |
-| `PROJECT_DOCUMENTATION.md` | Main project documentation. |
-
-### `public/`
-
-Static files copied directly to the built application:
-
-| File | Purpose |
-| --- | --- |
-| `aizengo-logo.svg` | Main AizenGo logo. |
-| `favicon.svg` | Browser tab icon. |
-| `icons.svg` | Shared SVG icon definitions. |
-
-### `src/`
-
-The frontend application source code.
-
-#### `src/main.tsx`, `src/App.tsx`, and styles
-
-| File | Purpose |
-| --- | --- |
-| `main.tsx` | React entry point. Mounts `App` inside `AppProviders`. |
-| `App.tsx` | Small application root that renders `AppRoutes`. |
-| `index.css` | Global styles, design tokens, layout, responsive rules, and utility classes. |
-| `App.css` | App-level stylesheet retained for application-specific styling. |
-
-#### `src/api/`
-
-API definitions and the shared Axios client. These files describe HTTP calls; they do not store application data.
-
-| File | Purpose |
-| --- | --- |
-| `axios.ts` | Creates the Axios client and sets the backend base URL. |
-| `authApi.ts` | Register, login, current-user, logout, and password-reset requests. |
-| `dataApi.ts` | Generic snapshot, list, create, update, and delete requests for backend resources. |
-| `conferenceApi.ts` | Conference list API wrapper. |
-| `speakerApi.ts` | Speaker list API wrapper. |
-| `abstractApi.ts` | Abstract list API wrapper. |
-| `registrationApi.ts` | Registration list API wrapper. |
-| `paymentApi.ts` | Payment list API wrapper. |
-| `adminApi.ts` | Admin overview API wrapper. |
-| `userApi.ts` | Current-user API wrapper. |
-
-The generic `dataApi.ts` is the primary content API used by the current backend-backed services.
-
-#### `src/components/`
-
-Reusable React UI components. Pages compose these components instead of implementing every visual element themselves.
-
-##### `components/common/`
-
-Shared building blocks used throughout the site:
-
-- `Button.tsx` — buttons and button variants.
-- `Badge.tsx` — status and category badges.
-- `Card.tsx` — card container and card content.
-- `Input.tsx` — labeled input control.
-- `Textarea.tsx` — labeled multiline input.
-- `Select.tsx` — labeled select control.
-- `FormControls.tsx` — shared form-control helpers.
-- `Search.tsx` — search input UI.
-- `Modal.tsx` — generic modal dialog.
-- `Pagination.tsx` — generic pagination controls.
-- `EmptyState.tsx` — empty-result display.
-- `ErrorState.tsx` — error display.
-- `Loader.tsx` — loading indicators and page loader.
-
-##### `components/auth/`
-
-- `AuthLayout.tsx` — layout for login and account forms.
-- `LoginForm.tsx` — login form and API call.
-- `RegisterForm.tsx` — account registration form.
-- `ForgotPasswordForm.tsx` — starts password reset.
-- `ResetPasswordForm.tsx` — sets a new password.
-- `ProtectedRoute.tsx` — requires an authenticated user.
-- `AdminRoute.tsx` — requires an admin or super-admin user.
-
-##### `components/conference/`
-
-Conference directory, search, filtering, cards, status, and pagination components:
-
-- `ConferenceCard.tsx` — displays a conference summary.
-- `ConferenceGrid.tsx` — lays out conference cards.
-- `ConferenceFilters.tsx` and `ConferenceFilter.tsx` — filtering controls.
-- `ConferenceSearch.tsx` — conference search field.
-- `ConferenceSort.tsx` — sort selection.
-- `ActiveFilters.tsx` — active filter chips.
-- `ConferencePagination.tsx` — directory pagination.
-- `ConferencePageHeader.tsx` — directory heading and breadcrumbs.
-- `ConferenceEmptyState.tsx` — no-conferences result.
-- `ConferenceStatusBadge.tsx` — conference status display.
-- `ConferenceCardSkeleton.tsx` — loading placeholder.
-
-The `components/conference/details/` folder contains the sections used on a conference detail page, including venue, program, committee, sponsors, gallery, FAQ, objectives, topics, dates, registration types, and related conferences.
-
-The detail files are:
-
-| File | Purpose |
-| --- | --- |
-| `AboutConference.tsx` | Conference description. |
-| `AccommodationSection.tsx` | Accommodation information. |
-| `ConferenceCTA.tsx` | Registration call to action. |
-| `ConferenceCommittee.tsx` | Organizing and program committee. |
-| `ConferenceFAQ.tsx` | Conference-specific questions. |
-| `ConferenceGallery.tsx` | Conference photos. |
-| `ConferenceHero.tsx` | Hero image and title. |
-| `ConferenceInfo.tsx` | Quick facts such as dates, format, and location. |
-| `ConferenceNotFound.tsx` | Missing conference state. |
-| `ConferenceObjectives.tsx` | Conference objectives. |
-| `ConferenceProgram.tsx` | Schedule and sessions. |
-| `ConferenceSponsors.tsx` | Sponsors and partners. |
-| `ConferenceTopics.tsx` | Topics and tracks. |
-| `ConferenceVenue.tsx` | Venue and location. |
-| `ImportantDates.tsx` | Submission, registration, and event dates. |
-| `RegistrationCard.tsx` | Registration summary and action. |
-| `RegistrationTypes.tsx` | Available registration tiers. |
-| `RelatedConferences.tsx` | Similar backend conferences. |
-| `index.ts` | Re-exports the detail components. |
-
-##### `components/home/`
-
-Homepage sections:
-
-- `HeroSection.tsx` — homepage hero.
-- `ConferenceSearchSection.tsx` — homepage conference search form.
-- `ConferenceCategories.tsx` — backend-backed category cards.
-- `FeaturedConferences.tsx` — featured backend conferences.
-- `UpcomingConferences.tsx` — upcoming conference cards.
-- `StatisticsSection.tsx` — platform statistics.
-- `Testimonials.tsx` — participant testimonials.
-- `HowItWorks.tsx` — platform workflow explanation.
-- `WhyAizenGo.tsx` — value proposition section.
-- `CTASection.tsx` — call-to-action banner.
-- `NewsletterSection.tsx` — newsletter signup presentation.
-
-##### `components/admin/`
-
-Admin-specific UI:
-
-- `AdminBreadcrumbs.tsx` — admin page breadcrumbs.
-- `AdminFilters.tsx` and `AdminSearch.tsx` — admin list filtering and search.
-- `AdminPagination.tsx` — admin list pagination.
-- `AdminTable.tsx` — reusable admin table.
-- `AdminModal.tsx` — admin confirmation/edit modal.
-- `AdminStatCard.tsx` — dashboard KPI card.
-- `DashboardCharts.tsx` — admin registration, category, and revenue charts.
-- `AdminToast.tsx` — admin success/error notifications.
-
-##### `components/layout/`
-
-- `Header.tsx` — public desktop header.
-- `MobileMenu.tsx` — mobile navigation.
-- `Footer.tsx` — public footer.
-- `AdminNavbar.tsx` and `AdminSidebar.tsx` — admin navigation shell.
-- `UserNavbar.tsx` and `UserSidebar.tsx` — authenticated user navigation shell.
-
-##### `components/about/`, `contact/`, `faq/`, `gallery/`, and `user/`
-
-- `about/` — mission, vision, values, overview, and what-AizenGo-does sections.
-- `contact/` — contact information and contact form.
-- `faq/` — FAQ accordion.
-- `gallery/` — backend-backed gallery grid and lightbox.
-- `user/` — dashboard cards for registrations, abstracts, and upcoming conferences.
-
-#### `src/constants/`
-
-| File | Purpose |
-| --- | --- |
-| `app.ts` | Application-wide branding and app constants. |
-| `conference.ts` | Conference-related option values and constants. |
-| `roles.ts` | User role definitions. |
-| `routes.ts` | Central route path constants. |
-
-#### `src/context/`
-
-React context providers:
-
-- `AppProviders.tsx` — composes Redux, React Query, theme, authentication, and backend-data providers.
-- `AuthContext.tsx` — manages login, registration, logout, reset flow, and the current authenticated user.
-- `authContextValue.ts` — context object used by the authentication provider.
-- `ThemeContext.tsx` and `themeContextValue.ts` — theme state and context value.
-- `BackendDataContext.tsx` — provides the backend snapshot to the rendered application.
-- `backendDataValue.ts` — context object used by the backend-data provider.
-
-#### `src/hooks/`
-
-Reusable behavior hooks:
-
-- `useAuth.ts` — reads authentication context.
-- `useBackendData.ts` — reads a typed resource from the backend snapshot.
-- `useTheme.ts` — reads theme context.
-- `useConferenceFilters.ts` — filters, sorts, and paginates conferences.
-- `usePagination.ts` — generic pagination state.
-- `useDebounce.ts` — delays rapidly changing input values.
-- `useAdminToast.ts` — displays admin toast messages.
-
-#### `src/layouts/`
-
-- `PublicLayout.tsx` — public header, footer, and outlet.
-- `UserLayout.tsx` — authenticated user navigation and outlet.
-- `AdminLayout.tsx` — admin navigation and outlet.
-
-#### `src/pages/`
-
-Page-level route components.
-
-##### `pages/public/`
-
-Public website pages: `Home`, `About`, `Conferences`, `ConferenceDetails`, `Contact`, `FAQ`, `Gallery`, `PrivacyPolicy`, `TermsOfUse`, and `Sitemap`.
-
-##### `pages/auth/`
-
-Authentication pages: `Login`, `Register`, `ForgotPassword`, `ResetPassword`, and `VerifyOTP`.
-
-##### `pages/user/`
-
-Authenticated attendee pages:
-
-- `Dashboard.tsx` — registration, abstract, certificate, and upcoming-event summary.
-- `Profile.tsx` and `EditProfile.tsx` — view and update backend profile data.
-- `MyConferences.tsx` — conferences associated with the user’s registrations.
-- `Registrations.tsx` and `RegistrationDetails.tsx` — registration list and detail view.
-- `Abstracts.tsx`, `SubmitAbstract.tsx`, and `AbstractDetails.tsx` — abstract workflow.
-- `Certificates.tsx` — certificate records.
-- `Notifications.tsx` — backend notification records and read/delete actions.
-- `Payments.tsx` and `Invoices.tsx` — user payment and invoice pages.
-- `Settings.tsx` — user settings page.
-
-##### `pages/admin/`
-
-Admin authentication and management pages:
-
-- `AdminLogin.tsx` — administrator login.
-- `Dashboard.tsx` — KPIs, charts, recent registrations, and abstracts.
-- `conferences/` — conference list, create, and edit screens.
-- `speakers/` — speaker list, create, and edit screens.
-- `users/` — administrative user management.
-- `registrations/` — registration management.
-- `abstracts/` — abstract list and review screens.
-- `blogs/` — blog list, create, and edit screens.
-- `faqs/` — FAQ management.
-- `gallery/` — gallery management.
-- `payments/` — payment management.
-- `reports/` — summary, revenue, abstract, and geography reports.
-- `settings/` — website, conference, notification, and security settings.
-
-Additional admin page files currently present in the source tree are:
-
-| Folder | Files and purpose |
-| --- | --- |
-| `categories/` | `CategoryList.tsx` — category administration. |
-| `cities/` | `CityList.tsx` — city administration. |
-| `countries/` | `CountryList.tsx` — country administration. |
-| `committee/` | `CommitteeList.tsx`, `CreateCommittee.tsx`, `EditCommittee.tsx` — committee management. |
-| `conferences/` | `ConferenceList.tsx`, `ConferenceView.tsx`, `CreateConference.tsx`, `EditConference.tsx` — conference management and view. |
-| `schedules/` | `ScheduleList.tsx` — schedule administration. |
-| `sponsors/` | `SponsorList.tsx` — sponsor administration. |
-| `users/` | `UserList.tsx`, `UserDetails.tsx` — user administration and detail view. |
-| `venues/` | `VenueList.tsx` — venue administration. |
-
-The active route tree in `src/routes/AppRoutes.tsx` currently registers the main conference, speaker, user, registration, abstract, blog, FAQ, gallery, payment, report, settings, and user-management pages. A source file existing under `pages/admin` does not automatically make it reachable; it must also be added to `AppRoutes.tsx`.
-
-#### `src/routes/`
-
-- `AppRoutes.tsx` — active route tree for public, auth, user, and admin areas.
-- `ProtectedRoute.tsx` — authenticated-route guard helper.
-- `RoleRoute.tsx` — role-specific route guard helper.
-- `PublicRoutes.tsx`, `UserRoutes.tsx`, and `AdminRoutes.tsx` — route aliases retained for route organization and compatibility.
-
-#### `src/services/`
-
-Service modules provide domain-specific operations above the raw API layer:
-
-- `backendDataService.ts` — generic backend list/create/update/delete helpers.
-- `authService.ts` — authentication service alias.
-- `conferenceService.ts` and `speakerService.ts` — API service aliases.
-- `adminConferenceService.ts` — backend conference CRUD and publish/featured actions.
-- `adminAbstractService.ts` — backend abstract review and reviewer assignment.
-- `adminBlogService.ts` — backend blog CRUD and publish actions.
-- `adminFaqService.ts` — backend FAQ CRUD and publish actions.
-- `adminGalleryService.ts` — backend gallery CRUD and featured actions.
-- `adminPaymentService.ts` — backend payment status updates.
-- `adminRegistrationService.ts` — backend registration creation and status updates.
-- `adminReportService.ts` — backend report and chart data retrieval.
-- `adminSettingsService.ts` — backend system settings retrieval and updates.
-- `adminSpeakerService.ts` — backend speaker CRUD and featured actions.
-- `adminUserService.ts` — backend administrative user record operations.
-
-#### `src/store/`
-
-Redux configuration and slices:
-
-- `index.ts` — configures and exports the Redux store.
-- `authSlice.ts` — authentication-related Redux state placeholder.
-- `userSlice.ts` — user-related Redux state placeholder.
-- `conferenceSlice.ts` — conference-related Redux state placeholder.
-- `notificationSlice.ts` — notification-related Redux state placeholder.
-
-Most current server-backed content is read through `BackendDataContext` or domain services rather than Redux.
-
-#### `src/types/`
-
-TypeScript domain models:
-
-- `auth.ts` — user roles, authentication state, login, registration, and reset types.
-- `user.ts` — user and user-profile types.
-- `conference.ts` — conference, schedule, venue, committee, sponsor, and registration types.
-- `abstract.ts` — abstract submission, author, and review status types.
-- `registration.ts` — registration and payment status types.
-- `payment.ts` — payment methods and payment records.
-- `certificate.ts` — certificate records.
-- `notification.ts` — notification records.
-- `speaker.ts` — speaker records.
-- `admin.ts` — admin statistics, settings, report, and chart types.
-- `content.ts` — blog, category, FAQ, gallery, statistics, and testimonial types/constants.
-- `common.ts` — shared generic types.
-
-#### `src/utils/`
-
-Small pure helper functions:
-
-- `formatCurrency.ts` — formats monetary values.
-- `formatDate.ts` — formats dates for display.
-- `helpers.ts` — shared general-purpose helpers.
-- `validation.ts` — validation utilities.
-
-#### `src/assets/`
-
-Bundled image and SVG assets used by frontend components. These are processed by Vite rather than copied unchanged like files in `public/`.
-
-## 19. Backend file reference
-
-### `server/src/index.ts`
-
-Main Express server. It configures CORS and JSON parsing, exposes health/auth/user/data routes, and starts the API on port `4000`.
-
-### `server/src/lib/`
-
-- `prisma.ts` — creates Prisma Client with the MariaDB adapter and database environment variables.
-- `password.ts` — hashes and verifies passwords.
-- `session.ts` — creates sessions, hashes tokens, checks expiration, and resolves the current user.
-
-### `server/src/seed.ts`
-
-Reads server seed data, creates or updates development accounts, and upserts JSON resources into `DataRecord`.
-
-### `server/src/seed-data/`
-
-Server-only initial data grouped by resource:
-
-| File | Resource |
-| --- | --- |
-| `abstracts.ts` | Abstract submissions |
-| `adminStats.ts` | Admin dashboard statistics and chart data |
-| `blogs.ts` | Blog posts |
-| `categories.ts` | Conference categories |
-| `certificates.ts` | Certificates |
-| `conferences.ts` | Conferences and detailed conference content |
-| `faqs.ts` | Frequently asked questions |
-| `gallery.ts` | Gallery records |
-| `notifications.ts` | User notifications |
-| `payments.ts` | Payment records |
-| `registrations.ts` | Conference registrations |
-| `reports.ts` | Report summaries and chart data |
-| `settings.ts` | System settings |
-| `speakers.ts` | Speaker records |
-| `statistics.ts` | Public statistics |
-| `testimonials.ts` | Participant testimonials |
-| `userProfile.ts` | Initial profile record |
-| `users.ts` | Development accounts and initial admin user records |
-
-These files are seed input, not the live database. Website changes are stored in MySQL.
-
-### `server/prisma/`
-
-- `schema.prisma` — Prisma data model for `User`, `Session`, and `DataRecord`.
-
-### `server/prisma7.config.ts`
-
-Prisma CLI configuration. It points Prisma to `prisma/schema.prisma`, the migrations directory, and `DATABASE_URL`.
-
-### `server/package.json`
-
-Backend scripts:
-
-- `npm run dev` — starts the API with `tsx watch`.
-- `npm run seed` — seeds development data.
-- `npm test` — currently a placeholder test command.
-
-### `server/generated/prisma/`
-
-Generated Prisma client files. Do not edit these files manually. Regenerate them with:
-
-```bash
-cd server
-npx prisma generate
-```
-
-## 20. How to trace a feature
-
-For a frontend feature, follow this order:
-
-```text
-Route -> Page -> Component -> Hook/Service -> API client -> Express route -> Prisma -> MySQL
-```
-
-For example, registration follows:
-
-```text
-Register page
-  -> RegisterForm.tsx
-  -> AuthContext.tsx
-  -> authApi.ts
-  -> POST /api/auth/register
-  -> prisma.user.create()
-  -> MySQL User table
-```
-
-For conference content:
-
-```text
-AppProviders.tsx
-  -> backendHydration.ts
-  -> GET /api/data/snapshot
-  -> DataRecord table
-  -> BackendDataContext
-  -> Conference page/component
-```
-
-## 21. Special folders inside `server/`
-
-The server contains a few folders that are not normal application source folders.
-
-| Folder | What it is used for | Edit it? |
+| Role | Email | Password |
 | --- | --- | --- |
-| `server/.agents/` | Local agent/tool skill instructions. The Prisma skill folders contain guidance for development tools, not backend runtime code. | Normally no. |
-| `server/.claude/` | Claude-related local tool configuration or skill files. It is not imported by the Express server. | Normally no. |
-| `server/.windsurf/` | Windsurf-related local tool configuration or skill files. It is not imported by the Express server. | Normally no. |
-| `server/generated/` | Generated Prisma Client TypeScript code produced from `prisma/schema.prisma`. | No; regenerate it. |
-| `server/node_modules/` | Installed backend npm dependencies. | No; recreate with `npm install`. |
-| `server/prisma/` | Prisma schema and database migration location. | Edit `schema.prisma` when changing the database model. |
-| `server/src/` | Actual backend source code. | Yes; this is the main backend code. |
+| User | `user@aizen.test` | `aizen123` |
+| Admin | `admin@aizen.test` | `admin123` |
+| Super admin | `superadmin@aizen.test` | `super123` |
 
-### `server/generated/prisma/`
+These are development-only credentials. `seed-demo.php` creates or resets
+these accounts' passwords; never run it against production or use these
+credentials on a live site.
 
-This folder is generated when Prisma runs:
+## 11. Deploy to MilesWeb cPanel
 
-```bash
-cd server
-npx prisma generate
-```
+This deployment layout serves the built frontend from the main domain and the
+PHP API from an API subdomain. Confirm that your MilesWeb plan supports PHP
+8.2+, `pdo_mysql`, and MySQL/MariaDB.
 
-The backend imports the generated client from `server/src/lib/prisma.ts`:
+1. **Create the database.** In cPanel, create a database and database user,
+   grant the user access, and import `server/php/schema.sql` into the empty
+   database.
+2. **Configure the API subdomain.** Create `api.yourdomain.com` and set its
+   document root to the API's `server/php/public` directory. Upload
+   `server/php/public/index.php` and `router.php` into that document root.
+3. **Configure PHP and the API environment.** Select PHP 8.2 or newer and
+   enable/check `pdo_mysql`. Place `server/.env` outside the public document
+   root, with the production database values and:
 
-```text
-server/src/lib/prisma.ts
-  -> server/generated/prisma/client.ts
-  -> MySQL database
-```
+   ```env
+   FRONTEND_ORIGIN=https://yourdomain.com
+   ```
 
-Important generated files include:
+   The PHP API looks for this file at the `server/.env` location relative to
+   the uploaded project layout. If your cPanel document-root layout differs,
+   place the file where the API's `dirname(__DIR__, 2)` lookup resolves.
+4. **Route API requests to PHP.** Add this `.htaccess` in the API document
+   root if Apache does not route non-file requests to `index.php`:
 
-- `client.ts` — generated Prisma Client entry point.
-- `models.ts` — generated model types for `User`, `Session`, and `DataRecord`.
-- `enums.ts` — generated enum definitions.
-- `commonInputTypes.ts` — generated query input types.
-- `browser.ts` — generated browser-compatible client exports.
-- `internal/` — Prisma internal runtime implementation.
+   ```apache
+   RewriteEngine On
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{REQUEST_FILENAME} !-d
+   RewriteRule ^ index.php [QSA,L]
+   ```
 
-Do not manually modify files under `server/generated/prisma`. If the schema changes or generated files are missing, run `npx prisma generate` again.
+5. **Build the frontend with its production API URL.** In the project root,
+   create `.env.production`:
 
-### `server/.agents/`, `server/.claude/`, and `server/.windsurf/`
+   ```env
+   VITE_API_BASE_URL=https://api.yourdomain.com/api
+   ```
 
-These are development-assistant/tooling folders. They help coding tools understand Prisma or store local workflow metadata. They are not loaded by:
+   Then run:
 
-- Express
-- Prisma Client
-- the frontend
-- the MySQL database
+   ```bash
+   npm install
+   npm run build
+   ```
 
-Deleting them normally does not change application behavior, but the associated development tool may recreate them or lose its local instructions.
+6. **Publish the frontend.** Upload the contents of `dist/` to the main
+   domain's `public_html/` directory. Add this `.htaccess` there so direct
+   navigation to React Router routes serves the SPA:
 
-### Other server files
+   ```apache
+   RewriteEngine On
+   RewriteBase /
+   RewriteRule ^index\.html$ - [L]
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{REQUEST_FILENAME} !-d
+   RewriteRule . /index.html [L]
+   ```
 
-- `.env` — local database credentials and server port. Keep private and do not commit it.
-- `.env.example` — safe configuration template.
-- `.gitignore` — excludes server dependencies, environment files, and generated/local files as configured.
-- `package.json` — backend dependencies and scripts.
-- `package-lock.json` — locked backend dependency versions.
-- `prisma7.config.ts` — Prisma CLI configuration.
-- `skills-lock.json` — local tooling/skill dependency lock information; it is not application data.
+7. **Verify the deployment.** Open `https://api.yourdomain.com/api/health`,
+   then load the frontend and check the browser console/network panel for API
+   or CORS errors. Rebuild `dist/` whenever `VITE_API_BASE_URL` changes.
+
+Do not upload `.env` files, source-control metadata, `node_modules`, or local
+development credentials to a public document root. Keep the API's database
+configuration outside the web root.
+
+## 12. Security and production limitations
+
+The PHP API enforces server-side access policies for user listings and
+application data. Public data is restricted to an allowlist; private records
+are limited to their owner or administrators. Keep these API checks in place:
+frontend route protection alone is not authorization.
+
+Password recovery is deliberately disabled: both recovery endpoints return
+`501` rather than allowing a password change based only on an email address.
+Implement verified email delivery and single-use, time-limited reset tokens
+before enabling account recovery. Authentication routes also need rate
+limiting before production use.
+
+Before using the application with real users or sensitive records, test the
+authorization rules for every role and resource, implement a secure
+email-based password-reset flow and rate limiting, add input validation
+appropriate to each resource, use HTTPS, store secrets securely, and configure
+database backups. Restrict `FRONTEND_ORIGIN` to the production frontend
+origin.
+
+The PHP API hashes newly created passwords using PHP's native password
+hashing. Password hashes created by the former Node backend may not be
+compatible; existing accounts may need a password reset or a deliberate hash
+migration.
+
+## 13. Troubleshooting
+
+### Frontend cannot connect to the API
+
+- Confirm the API responds at `/api/health`.
+- Check `VITE_API_BASE_URL`; it must end in `/api`.
+- On production, confirm the frontend was rebuilt after changing the API URL.
+- Check that `FRONTEND_ORIGIN` exactly matches the frontend's scheme, host,
+  and port.
+
+### API reports a database error
+
+- Confirm the database name, user, password, and host in `server/.env`.
+- Confirm the user has privileges on the database.
+- Confirm PHP's `pdo_mysql` extension is enabled.
+- Confirm the tables in `schema.sql` exist in the selected database.
+
+### A route works through site navigation but not when refreshed
+
+Configure the frontend Apache rewrite rule so unknown paths resolve to
+`index.html`.
+
+### API endpoints return 404 on cPanel
+
+Confirm the API subdomain points to `server/php/public` and that the API
+document root has the PHP rewrite rule shown above.
+
+### A user password is forgotten
+
+Passwords are stored as hashes and cannot be recovered. The current reset
+flow is not suitable for production until a verified reset-token and email
+workflow is implemented.
